@@ -21,26 +21,24 @@ If install successfully, then do <br/>`node authorization_code/app.js`<br/> to s
 If install successfully, then do <br/>`npm start`<br/> to start the react app. The web application will be running automatically on `localhost:3000`. 
 <br/>
 
-4. Development Flow<br/>
-Start `server` first and then `client`. Hot-load is enabled so there is no need to restart the server to see changes. <br/>
-If added additional libraries/modules, a new `npm install` is required to see and save changes. 
-
-
+4. Development Notes<br/>
+   - Start `server` first and then start the `client`. 
+   - Try not to push `package-lock.json` changes if no new libraries are added. 
 
 
 
 ## API Usage 
-1. To use the API
-Include API wrapper library on top of the file<br/>
+1. To use the API<br/>
+Import API wrapper library on top of the file<br/>
 ```javascript
 import SpotifyWebApi from 'spotify-web-api-node';
 ```
-Then instantiate the library by <br/>
+Then instantiate the library by: <br/>
 ```javascript
-var SpotifyWebApi = require('spotify-web-api-node');
+const spotifyApi = new SpotifyWebApi();
 ```
-2. Make API calls
-This API wrapper uses promises, so you need to provide a success callback as well as an error callback.<br/>
+2. Make API call<br/>
+This API wrapper uses promises, so you will need to provide a success callback as well as an error callback.<br/>
 ```javascript
 // Example API call
 spotifyApi.apiCall().then(
