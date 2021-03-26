@@ -19,7 +19,7 @@ class App extends Component {
       nowPlaying: {
         name: 'Not Checked',
         ablumArt: ''
-      }
+      } //need to add variable to hold playlists (array)
     }
   }
 
@@ -41,13 +41,14 @@ class App extends Component {
       .then(
         function(data) {
           if (data.body && data.body.is_playing) {
-            console.log("User is currently playing something!");
+            console.log("User is currently playing something!");           
             _this.setState({
               nowPlaying: { 
                   name: data.body.item.name, 
                   albumArt: data.body.item.album.images[0].url
                 }
             });
+            console.log(data.body);
           } else {
             console.log("User is not playing anything, or doing so in private.");
           }
@@ -66,7 +67,7 @@ class App extends Component {
           Now Playing: { this.state.nowPlaying.name }
         </div>
         <div>
-          <img src={this.state.nowPlaying.albumArt} style={{height: 150}} alt=''/>
+          <img src={this.state.nowPlaying.albumArt} style={{height: 250}} alt=''/>
         </div>
         { this.state.loggedIn &&
           <button onClick={() => this.getNowPlaying()}>
