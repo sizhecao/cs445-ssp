@@ -1,8 +1,40 @@
+/* This controls largely the entire background I think*/
 .App {
-  text-align: center;
+	display: grid;
+	place-items: center;
+	height: 100vh;
+	background-color: rgb(0, 0, 0);
 }
 
-div, button {
-  margin: 10px;
-  background-color: pink;
+/* changes the style of the button tag in App.js in render*/
+.App > button {
+	display: grid;
+	place-items: center;
+	border-radius: 99px;
+	padding: 10px;
+	background-color: #1db954; /* spotify colors*/
+	color: white;
+	text-decoration: none;
+}
+
+/* This changes all the font colors with the div tag to white so it contrasts background*/
+.App > div {
+	color: white;
+}
+
+/* controls the image properties in Login.js*/
+.loginPhoto > img {
+	padding: 20px;
+}
+
+/* controls the login button properties in Login.js*/
+.loginButton > a {
+	display: grid;
+	place-items: center;
+	padding: 20px;
+	border-radius: 99px;
+	background-color: #1db954;
+	font-weight: 800;
+	color: white;
+	text-decoration: none;
 }

@@ -1,6 +1,7 @@
 import './App.css';
 import React, { Component }from 'react';
 import SpotifyWebApi from 'spotify-web-api-node';
+import Login from './Login'; // our login functionality
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -61,19 +62,29 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <a href='http://localhost:8888' > Log in here! </a>
+
+        <Login />  {/* This component is written in Login.js */}
+
         <div>
           Now Playing: { this.state.nowPlaying.name }
         </div>
+
+        {/* Display album art */}
         <div>
-          <img src={this.state.nowPlaying.albumArt} style={{height: 150}} alt=''/>
+          <img src={this.state.nowPlaying.albumArt} style={{height: 150}} alt=""/>
         </div>
+
+        {/*Button to check if logged in, and then to get the song that is playing*/}
         { this.state.loggedIn &&
           <button onClick={() => this.getNowPlaying()}>
             Check Now Playing
           </button>
         } 
+        <div>
+          Now Playing: {this.state.nowPlaying.name }
+        </div>
       </div>
+      
     );
   }
 }
