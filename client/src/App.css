@@ -2,14 +2,16 @@
 	display: grid;
 	place-items: center;
 	height: 100vh;
-	background-color: rgb(179, 115, 115);
+	background-color: rgb(208, 109, 109);
 }
 
-.login > img {
-	width: 100%;
+.loginPhoto > img {
+	padding: 20px;
 }
 
-.login > a {
+.loginButton > a {
+	display: grid;
+	place-items: center;
 	padding: 20px;
 	border-radius: 99px;
 	background-color: #1db954;
@@ -17,8 +19,3 @@
 	color: white;
 	text-decoration: none;
 }
-/*div,
-button {
-	margin: 10px;
-	background-color: rgb(255, 96, 96);
-}*/

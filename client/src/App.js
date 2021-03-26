@@ -62,13 +62,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>SUPER SPOTIFY PLAYLIST</h1>
-
         <Login />  {/* This component is written in Login.js */}
 
         <div>
-          Now Playing: { this.state.nowPlaying.name }
+            Now Playing: { this.state.nowPlaying.name }
         </div>
+        
         <div>
           <img src={this.state.nowPlaying.albumArt} style={{height: 150}} alt=''/>
         </div>
@@ -77,7 +76,11 @@ class App extends Component {
             Check Now Playing
           </button>
         } 
+        <div>
+          Now Playing: {this.state.nowPlaying.name }
+        </div>
       </div>
+      
     );
   }
 }

@@ -6,18 +6,20 @@ import './App.css';
 
 function Login() {
     return (
-        <div className='login'>
+        <div className='loginPhoto'>
 
             {/* Spotify Logo. Wont load :( */}
-            <img src="src/super_spotify_playlist_logo.png" alt=""/>
+            <img src="superSpotifyPlaylistLogo.png" alt="super spotify playlist own logo"/>
 
-            {/* Login with Spotify button */}
-            <a href='http://localhost:8888' > LOGIN WITH SPOTIFY </a>
+            <div className='loginButton' >
+                {/* Login with Spotify button */}
+                <a href='http://localhost:8888' > LOGIN WITH SPOTIFY </a>
 
+            </div>
 
-
-            
         </div>
+        
+        
     )
 }
 
