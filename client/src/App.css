@@ -1,8 +1,24 @@
 .App {
-  text-align: center;
+	display: grid;
+	place-items: center;
+	height: 100vh;
+	background-color: rgb(179, 115, 115);
 }
 
-div, button {
-  margin: 10px;
-  background-color: pink;
+.login > img {
+	width: 100%;
 }
+
+.login > a {
+	padding: 20px;
+	border-radius: 99px;
+	background-color: #1db954;
+	font-weight: 800;
+	color: white;
+	text-decoration: none;
+}
+/*div,
+button {
+	margin: 10px;
+	background-color: rgb(255, 96, 96);
+}*/

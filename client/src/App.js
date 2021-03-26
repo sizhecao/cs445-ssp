@@ -1,6 +1,7 @@
 import './App.css';
 import React, { Component }from 'react';
 import SpotifyWebApi from 'spotify-web-api-node';
+import Login from './Login'; // our login functionality
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -61,7 +62,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <a href='http://localhost:8888' > Log in here! </a>
+        <h1>SUPER SPOTIFY PLAYLIST</h1>
+
+        <Login />  {/* This component is written in Login.js */}
+
         <div>
           Now Playing: { this.state.nowPlaying.name }
         </div>
