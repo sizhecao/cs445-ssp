@@ -3,6 +3,7 @@ functionality  */
 
 import React from 'react';
 import './App.css';
+//import loginURL from '../../server/authorization_code/app';
 
 function Login() {
     return (
@@ -13,7 +14,7 @@ function Login() {
 
             <div className='loginButton' >
                 {/* Login with Spotify button */}
-                <a href='http://localhost:8888' > LOGIN WITH SPOTIFY </a>
+                <a href='http://localhost:8888/login' > LOGIN WITH SPOTIFY </a>
 
             </div>
 
