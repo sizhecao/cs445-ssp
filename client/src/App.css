@@ -38,3 +38,10 @@
 	color: white;
 	text-decoration: none;
 }
+
+/* controls the login button properties in Login.js*/
+.loginButton > p {
+	display: grid;
+	place-items: center;
+	font-size: 30px;
+}

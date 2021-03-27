@@ -63,8 +63,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-
-        <Login />  {/* This component is written in Login.js */}
+        <div className='loginPhoto'>
+          <img src="superSpotifyPlaylistLogo.png" alt="super spotify playlist own logo"/>
+          <Login 
+            isLoggedIn = {this.state.loggedIn}
+            spotifyAPI = {spotifyApi}
+          />
+        </div>
 
         <div>
           Now Playing: { this.state.nowPlaying.name }
