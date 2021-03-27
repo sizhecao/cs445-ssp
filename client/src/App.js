@@ -72,11 +72,7 @@ class App extends Component {
 
         {/* Display album art */}
         <div>
-<<<<<<< HEAD
           <img src={this.state.nowPlaying.albumArt} style={{height: 250}} alt=''/>
-=======
-          <img src={this.state.nowPlaying.albumArt} style={{height: 150}} alt=""/>
->>>>>>> 48d95d547aa43538a9375b8a81a43ac6157d227e
         </div>
 
         {/*Button to check if logged in, and then to get the song that is playing*/}
