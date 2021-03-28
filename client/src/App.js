@@ -20,7 +20,7 @@ class App extends Component {
       nowPlaying: {
         name: 'Not Checked',
         ablumArt: ''
-      } //need to add variable to hold playlists (array)
+      }
     }
   }
 
@@ -63,34 +63,31 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+    
         <div className='loginPhoto'>
           <img src="superSpotifyPlaylistLogo.png" alt="super spotify playlist own logo"/>
+          {/*Login component, details in Login.js*/}
           <Login 
             isLoggedIn = {this.state.loggedIn}
             spotifyAPI = {spotifyApi}
           />
         </div>
 
-        <div>
-          Now Playing: { this.state.nowPlaying.name }
-        </div>
-
-        {/* Display album art */}
-        <div>
-          <img src={this.state.nowPlaying.albumArt} style={{height: 250}} alt=''/>
-        </div>
-
-        {/*Button to check if logged in, and then to get the song that is playing*/}
+        {/*When user is logged in, display now playing div*/}
         { this.state.loggedIn &&
-          <button onClick={() => this.getNowPlaying()}>
-            Check Now Playing
-          </button>
+          <div className='nowPlaying'>
+            <div>
+              <img src={this.state.nowPlaying.albumArt} style={{height: 250}} alt=''/>
+            </div>
+            <button onClick={() => this.getNowPlaying()}>
+              Check Now Playing
+            </button>
+            <div>
+              Now Playing: {this.state.nowPlaying.name }
+            </div>
+          </div>
         } 
-        <div>
-          Now Playing: {this.state.nowPlaying.name }
-        </div>
       </div>
-      
     );
   }
 }

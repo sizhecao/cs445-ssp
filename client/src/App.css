@@ -1,8 +1,13 @@
+/* make body and root height 100% */
+body > #root > div {
+	height: 100vh;
+}
+
 /* This controls largely the entire background I think*/
 .App {
 	display: grid;
 	place-items: center;
-	height: 100vh;
+	height: 100%;
 	background-color: rgb(0, 0, 0);
 }
 
@@ -44,4 +49,27 @@
 	display: grid;
 	place-items: center;
 	font-size: 30px;
+}
+
+.nowPlaying {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  	justify-content: center;
+}
+
+/* controls the playlist properties in Login.js*/
+/* set to gray color for now to differentiate this component*/
+.playlist {
+	display: flex;
+	width: 100%;
+	background-color: gray;
+}
+
+.playlist > li {
+	font-size: 15px;
+}
+
+.playlist > img {
+	height: 100px;
 }
