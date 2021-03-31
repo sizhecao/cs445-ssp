@@ -3,25 +3,70 @@ functionality  */
 
 import React from 'react';
 import './App.css';
-//import loginURL from '../../server/authorization_code/app';
 
-function Login() {
-    return (
-        <div className='loginPhoto'>
+class Login extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      isLoggedIn: props.isLoggedIn,
+      userName: '',
+      playlists: null,
+    }
+  }
 
-            {/* Spotify Logo. Wont load :( */}
-            <img src="superSpotifyPlaylistLogo.png" alt="super spotify playlist own logo"/>
+  componentDidMount() {
+    const _this = this;
+    this.props.spotifyAPI.getMe()
+    .then(function(data) {
+      console.log(data.body);
+      _this.setState({userName: data.body.display_name})
+      return _this.props.spotifyAPI.getUserPlaylists(data.body.display_name);
+    })
+    .then(function(data) {
+      console.log(data.body);
+      _this.setState({playlists: data.body.items})
+    })
+    .catch(function(err) {
+      console.log('Something went wrong:', err.message);
+    });
+  }
 
-            <div className='loginButton' >
-                {/* Login with Spotify button */}
-                <a href='http://localhost:8888/login' > LOGIN WITH SPOTIFY </a>
+  
+  renderPlaylists(playlists) {
+    const playlistsList = playlists.map((item) => (
+      <div className="playlist">
+        <img src={item.images[0].url} alt='' />
+        <ul>
+          <li>Name: {item.name} </li>
+          <li>Id: {item.id}</li>
+        </ul>
+      </div>
+    ));
+    return playlistsList;
+  }
 
+  render() {
+    //display user playlists if logged in, otherwise display login button
+    if (this.state.isLoggedIn) {
+      return (
+        <div className='loginButton'>
+            <p>Hi, {this.state.userName}!</p>
+            <div>
+              {this.state.playlists && this.renderPlaylists(this.state.playlists)}
             </div>
-
         </div>
-        
-        
-    )
+      );
+    }
+    else {
+      return (
+        <div className='loginButton' >
+          <a href='http://localhost:8888/login' > LOGIN WITH SPOTIFY </a>
+        </div>
+      );
+    }
+
+    
+  }
 }
 
 export default Login;
