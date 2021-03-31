@@ -47,12 +47,13 @@ class Login extends React.Component {
 
   render() {
     //display user playlists if logged in, otherwise display login button
+    //took out from line 56 {this.state.playlists && this.renderPlaylists(this.state.playlists)}
     if (this.state.isLoggedIn) {
       return (
         <div className='loginButton'>
             <p>Hi, {this.state.userName}!</p>
             <div>
-              {this.state.playlists && this.renderPlaylists(this.state.playlists)}
+
             </div>
         </div>
       );
