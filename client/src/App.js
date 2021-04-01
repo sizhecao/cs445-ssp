@@ -60,6 +60,24 @@ class App extends Component {
       );
   }
 
+  getTop50Playlist(){
+    const _this = this;
+    const playlistID = '37i9dQZEVXbMDoHDwVN2tF';
+    spotifyApi.getPlaylist(playlistID)
+    .then(function(data){
+      console.log(data.body);
+      if(data.body){
+        _this.setState({
+          nowPlaying: {
+            name: data.body.name,
+            albumArt: data.body.images[0].url
+          }
+        });
+      }
+    }
+    );
+  }
+
   render() {
     return (
       <div className="App">
@@ -79,7 +97,7 @@ class App extends Component {
             <div>
               <img src={this.state.nowPlaying.albumArt} style={{height: 250}} alt=''/>
             </div>
-            <button onClick={() => this.getNowPlaying()}>
+            <button onClick={() => this.getTop50Playlist()}>
               Check Now Playing
             </button>
             <div>
