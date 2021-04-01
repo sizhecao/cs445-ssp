@@ -20,6 +20,11 @@ class App extends Component {
       nowPlaying: {
         name: 'Not Checked',
         ablumArt: ''
+      },
+      createPlaylist: {
+        playlistName: '',
+        playlistImg: '',
+        artistList: null,
       }
     }
   }
@@ -68,12 +73,18 @@ class App extends Component {
       console.log(data.body);
       if(data.body){
         _this.setState({
-          nowPlaying: {
-            name: data.body.name,
-            albumArt: data.body.images[0].url
+          createPlaylist: {
+            playlistName: data.body.name,
+            playlistImg: data.body.images[0].url
           }
         });
       }
+      else {
+        console.log('Invalid playlist ID entered');
+      }
+    },
+    function(err) {
+      console.log("Something went wrong", err);
     }
     );
   }
@@ -83,7 +94,7 @@ class App extends Component {
       <div className="App">
     
         <div className='loginPhoto'>
-          <img src="superSpotifyPlaylistLogo.png" alt="super spotify playlist own logo"/>
+          <img src="superSpotifyPlaylistLogo.png" style={{height: 100}} alt="super spotify playlist own logo"/>
           {/*Login component, details in Login.js*/}
           <Login 
             isLoggedIn = {this.state.loggedIn}
@@ -93,17 +104,37 @@ class App extends Component {
 
         {/*When user is logged in, display now playing div*/}
         { this.state.loggedIn &&
+        <div className='GUI_content_format'>
           <div className='nowPlaying'>
+          <p>
+            Current Song Playing:
+          </p>
             <div>
               <img src={this.state.nowPlaying.albumArt} style={{height: 250}} alt=''/>
             </div>
-            <button onClick={() => this.getTop50Playlist()}>
+            <button onClick={() => this.getNowPlaying()}>
               Check Now Playing
             </button>
             <div>
               Now Playing: {this.state.nowPlaying.name }
             </div>
           </div>
+
+          <div className='generatePlaylist'>
+          <p>
+            Get Data From A Playlist
+          </p>
+            <div>
+            <img src={this.state.createPlaylist.playlistImg} style={{height: 250}} alt=''/>
+            </div>
+            <button onClick={() => this.getTop50Playlist()}>
+              Get Data from Top 50 Global
+            </button>
+            <div>
+              Getting Data from: {this.state.createPlaylist.playlistName}
+            </div>
+          </div>
+        </div>
         }
       </div>
     );
