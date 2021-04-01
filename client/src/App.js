@@ -86,7 +86,7 @@ class App extends Component {
               Now Playing: {this.state.nowPlaying.name }
             </div>
           </div>
-        } 
+        }
       </div>
     );
   }

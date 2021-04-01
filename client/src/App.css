@@ -58,6 +58,16 @@ body > #root > div {
   	justify-content: center;
 }
 
+.nowPlaying > button {
+	display: grid;
+	place-items: center;
+	border-radius: 99px;
+	padding: 10px;
+	background-color: #1db954; /* spotify colors*/
+	color: white;
+	text-decoration: none;
+}
+
 /* controls the playlist properties in Login.js*/
 /* set to gray color for now to differentiate this component*/
 .playlist {
