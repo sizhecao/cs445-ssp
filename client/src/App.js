@@ -65,7 +65,9 @@ class App extends Component {
       );
   }
 
-  getTop50Playlist(){
+  //Get the data from a playlist, for now, its set to a specific one "Top 50 Global"
+  //Need to implement a parameter which would be the playlist ID
+  getPlaylistData(){
     const _this = this;
     const playlistID = '37i9dQZEVXbMDoHDwVN2tF';
     spotifyApi.getPlaylist(playlistID)
@@ -87,6 +89,19 @@ class App extends Component {
       console.log("Something went wrong", err);
     }
     );
+  }
+
+  //Method to get the list of songs from playlist
+  getPlaylistSongs(playlistID){
+    spotifyApi.getPlaylistTracks(playlistID)
+    .then(function(data){
+
+    });
+  }
+
+  //Method to get the list of artists from songs in a playlist 
+  getPlaylistArtists(playlistID){
+
   }
 
   render() {
@@ -127,7 +142,7 @@ class App extends Component {
             <div>
             <img src={this.state.createPlaylist.playlistImg} style={{height: 250}} alt=''/>
             </div>
-            <button onClick={() => this.getTop50Playlist()}>
+            <button onClick={() => this.getPlaylistData()}>
               Get Data from Top 50 Global
             </button>
             <div>
