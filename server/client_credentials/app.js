@@ -11,8 +11,8 @@ var request = require('request'); // "Request" library
 
 //Add you credentials here (hard coded)
 //Need to change to dynamically fetch/load these for Spotify Login Verification (see YT video)
-var client_id = 'CLIENT_ID'; // Your client id
-var client_secret = 'CLIENT_SECRET'; // Your secret
+var client_id = 'f6552696f7bd48a88159bcf7f2770dd4'; // Your client id
+var client_secret = '47bb8c446b1142d39ca07bef07ef9ce2'; // Your secret
 
 // your application requests authorization
 var authOptions = {
