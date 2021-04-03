@@ -2,6 +2,7 @@ import './App.css';
 import React, { Component }from 'react';
 import SpotifyWebApi from 'spotify-web-api-node';
 import Login from './Login'; // our login functionality
+import GeneratePlaylist from './GeneratePlaylist'; //our generate playlist component
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -109,7 +110,7 @@ class App extends Component {
       <div className="App">
     
         <div className='loginPhoto'>
-          <img src="superSpotifyPlaylistLogo.png" style={{height: 100}} alt="super spotify playlist own logo"/>
+          <img src="superSpotifyPlaylistLogo.png" alt="super spotify playlist own logo"/>
           {/*Login component, details in Login.js*/}
           <Login 
             isLoggedIn = {this.state.loggedIn}
@@ -118,12 +119,22 @@ class App extends Component {
         </div>
 
         {/*When user is logged in, display now playing div*/}
-        { this.state.loggedIn &&
+        <div>
+          { this.state.loggedIn && <GeneratePlaylist spotifyAPI = {spotifyApi}/> }
+        </div>
+        
+      </div>
+    );
+  }
+}
+
+export default App;
+
+//Display Current playing song and get top 50 playlist
+/*
         <div className='GUI_content_format'>
           <div className='nowPlaying'>
-          <p>
-            Current Song Playing:
-          </p>
+            <p>Current Song Playing:</p>
             <div>
               <img src={this.state.nowPlaying.albumArt} style={{height: 250}} alt=''/>
             </div>
@@ -136,9 +147,7 @@ class App extends Component {
           </div>
 
           <div className='generatePlaylist'>
-          <p>
-            Get Data From A Playlist
-          </p>
+            <p>Get Data From A Playlist</p>
             <div>
             <img src={this.state.createPlaylist.playlistImg} style={{height: 250}} alt=''/>
             </div>
@@ -150,12 +159,4 @@ class App extends Component {
             </div>
           </div>
         </div>
-        }
-      </div>
-    );
-  }
-}
-
-
-
-export default App;
+*/
