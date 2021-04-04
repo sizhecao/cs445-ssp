@@ -1,5 +1,5 @@
 import './App.css';
-import React, { Component }from 'react';
+import React, { Component } from 'react';
 import SpotifyWebApi from 'spotify-web-api-node';
 import Login from './Login'; // our login functionality
 import GeneratePlaylist from './GeneratePlaylist'; //our generate playlist component
@@ -9,7 +9,7 @@ const spotifyApi = new SpotifyWebApi();
 
 class App extends Component {
 
-  constructor(){
+  constructor() {
     super();
     const params = this.getHashParams();
     const token = params.access_token;
@@ -22,6 +22,8 @@ class App extends Component {
         name: 'Not Checked',
         ablumArt: ''
       },
+      topArtists: null,
+
       createPlaylist: {
         playlistName: '',
         playlistImg: '',
@@ -33,11 +35,11 @@ class App extends Component {
   getHashParams() {
     var hashParams = {};
     var e, r = /([^&;=]+)=?([^&;]*)/g,
-        q = window.location.hash.substring(1);
+      q = window.location.hash.substring(1);
     e = r.exec(q)
     while (e) {
-       hashParams[e[1]] = decodeURIComponent(e[2]);
-       e = r.exec(q);
+      hashParams[e[1]] = decodeURIComponent(e[2]);
+      e = r.exec(q);
     }
     return hashParams;
   }
@@ -46,25 +48,43 @@ class App extends Component {
     const _this = this;
     spotifyApi.getMyCurrentPlaybackState()
       .then(
-        function(data) {
+        function (data) {
           if (data.body && data.body.is_playing) {
-            console.log("User is currently playing something!");           
+            console.log("User is currently playing something!");
             _this.setState({
-              nowPlaying: { 
-                  name: data.body.item.name, 
-                  albumArt: data.body.item.album.images[0].url
-                }
+              nowPlaying: {
+                name: data.body.item.name,
+                albumArt: data.body.item.album.images[0].url
+              }
             });
             console.log(data.body);
           } else {
             console.log("User is not playing anything, or doing so in private.");
           }
-        }, 
-        function(err) {
+        },
+        function (err) {
           console.log("Something went wrong", err);
         }
       );
   }
+  getTopArtists() {
+    const _this = this;
+    spotifyApi.getMyTopArtists()
+      .then(
+        function (data) {
+          if (data.body.items) {
+            _this.setState({
+              topArtists: data.body.items,
+            });
+            console.log(_this.state.topArtists);
+          } else {
+            console.log('data.body null, something went wrong!');
+          }
+        }, function (err) {
+          console.log('Something went wrong!', err);
+        });
+  }
+
 
   //Get the data from a playlist, for now, its set to a specific one "Top 50 Global"
   //Need to implement a parameter which would be the playlist ID
@@ -124,6 +144,7 @@ class App extends Component {
         </div>
         
       </div>
+
     );
   }
 }
