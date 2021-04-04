@@ -2,6 +2,7 @@ import './App.css';
 import React, { Component } from 'react';
 import SpotifyWebApi from 'spotify-web-api-node';
 import Login from './Login'; // our login functionality
+import GeneratePlaylist from './GeneratePlaylist'; //our generate playlist component
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -21,8 +22,13 @@ class App extends Component {
         name: 'Not Checked',
         ablumArt: ''
       },
-      topArtists: null
+      topArtists: null,
 
+      createPlaylist: {
+        playlistName: '',
+        playlistImg: '',
+        artistList: null,
+      }
     }
   }
 
@@ -80,41 +86,98 @@ class App extends Component {
   }
 
 
+  //Get the data from a playlist, for now, its set to a specific one "Top 50 Global"
+  //Need to implement a parameter which would be the playlist ID
+  getPlaylistData(){
+    const _this = this;
+    const playlistID = '37i9dQZEVXbMDoHDwVN2tF';
+    spotifyApi.getPlaylist(playlistID)
+    .then(function(data){
+      console.log(data.body);
+      if(data.body){
+        _this.setState({
+          createPlaylist: {
+            playlistName: data.body.name,
+            playlistImg: data.body.images[0].url
+          }
+        });
+      }
+      else {
+        console.log('Invalid playlist ID entered');
+      }
+    },
+    function(err) {
+      console.log("Something went wrong", err);
+    }
+    );
+  }
+
+  //Method to get the list of songs from playlist
+  getPlaylistSongs(playlistID){
+    spotifyApi.getPlaylistTracks(playlistID)
+    .then(function(data){
+
+    });
+  }
+
+  //Method to get the list of artists from songs in a playlist 
+  getPlaylistArtists(playlistID){
+
+  }
+
   render() {
     return (
       <div className="App">
-
-        <Login />  {/* This component is written in Login.js */}
-
-        <div>
-          Now Playing: {this.state.nowPlaying.name}
+    
+        <div className='loginPhoto'>
+          <img src="superSpotifyPlaylistLogo.png" alt="super spotify playlist own logo"/>
+          {/*Login component, details in Login.js*/}
+          <Login 
+            isLoggedIn = {this.state.loggedIn}
+            spotifyAPI = {spotifyApi}
+          />
         </div>
 
-        {/* Display album art */}
+        {/*When user is logged in, display now playing div*/}
         <div>
-          <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} alt="" />
+          { this.state.loggedIn && <GeneratePlaylist spotifyAPI = {spotifyApi}/> }
         </div>
-
-        {/*Button to check if logged in, and then to get the song that is playing*/}
-        {this.state.loggedIn &&
-          <button onClick={() => this.getNowPlaying()}>
-            Check Now Playing
-          </button>
-        }
-        {this.state.loggedIn &&
-          <button onClick={() => this.getTopArtists()}>
-            getMyTopArtists
-          </button>
-        }
-        <div>
-          Now Playing: {this.state.nowPlaying.name}
-        </div>
+        
       </div>
 
     );
   }
 }
 
-
-
 export default App;
+
+//Display Current playing song and get top 50 playlist
+/*
+        <div className='GUI_content_format'>
+          <div className='nowPlaying'>
+            <p>Current Song Playing:</p>
+            <div>
+              <img src={this.state.nowPlaying.albumArt} style={{height: 250}} alt=''/>
+            </div>
+            <button onClick={() => this.getNowPlaying()}>
+              Check Now Playing
+            </button>
+            <div>
+              Now Playing: {this.state.nowPlaying.name }
+            </div>
+          </div>
+
+          <div className='generatePlaylist'>
+            <p>Get Data From A Playlist</p>
+            <div>
+            <img src={this.state.createPlaylist.playlistImg} style={{height: 250}} alt=''/>
+            </div>
+            <button onClick={() => this.getPlaylistData()}>
+              Get Data from Top 50 Global
+            </button>
+            <div>
+              Getting Data from: {this.state.createPlaylist.playlistName}
+            </div>
+          </div>
+        </div>
+*/
