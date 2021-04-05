@@ -11,61 +11,26 @@ class GeneratePlaylist extends React.Component {
       userTrackID: null,
       userArtists: null,
       newTrackList: null,
-
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    //example of api calls, see web console for data structure
-    const _this = this;
-    this.props.spotifyAPI.getMe()
-    .then(function(data) {
-      console.log(data.body);
-      _this.setState({userName: data.body.display_name})
-      return _this.props.spotifyAPI.getUserPlaylists(data.body.display_name);
-    })
-    .then(function(data) {
-      console.log(data.body);
-      _this.setState({playlists: data.body.items})
-      return _this.props.spotifyAPI.getPlaylist('0hOgSihQE8qFl0RSBOYRId');
-    })
-    .then(function(data) {
-      console.log("playlist: ", data.body);
-    })
-    .catch(function(err) {
-      console.log('Something went wrong:', err.message);
-    });
-  }
 
-  
-  renderPlaylists(playlists) {
-    const playlistsList = playlists.map((item) => (
-      <div className="playlist">
-        <img src={item.images[0].url} alt='' />
-        <ul>
-          <li>Name: {item.name} </li>
-          <li>Id: {item.id}</li>
-        </ul>
-      </div>
-    ));
-    return playlistsList;
-  }
 
+
+  //set the genre type 
   handleChange(event) {
     this.setState({selectedGenre: event.target.value});  
   }
+
+  //when Generate button is called, check if a genre is selected, then switch to displayNewList state.
   handleSubmit(event) {
-    
-    console.log("submit selected genre: ", this.state.selectedGenre);
-    console.log("display state: ", this.state.displayState);
     if (this.state.selectedGenre !== '') {
       this.setState({displayState: 'displayNewList'});
     }
     event.preventDefault();
   }
-
 
   renderSelectGenre() {
     return (
@@ -75,7 +40,8 @@ class GeneratePlaylist extends React.Component {
             <select value={this.state.selectedGenre} onChange={this.handleChange}> 
               <option value="" disabled>Select Playlist Type</option>
               <option value="Throwback">Throwback</option>
-              <option value="Rap">Rap</option>
+              <option value="Indie">Indie</option>
+              <option value="Rap">Rap</option>  
               <option value="Country">Country</option>
               <option value="Jazz">Jazz</option>
             </select>
@@ -85,16 +51,84 @@ class GeneratePlaylist extends React.Component {
     )
   }
 
+  //Set userPlaylistID to a specific playlist ID
+  //according to the option selected in the list
+  setGeneratePlaylistID(){
+    const _this = this;
+    if(_this.state.selectedGenre){
+      switch(_this.state.selectedGenre){
+        case 'Throwback':
+          _this.setState({
+            userPlaylistID: '6xvGvOrLQIvqncEw4nJkJk'
+          })
+          break;
+        case 'Rap':
+        case 'Indie':
+          _this.setState({
+            userPlaylistID: '37i9dQZF1DX9LbdoYID5v7'
+          })
+        case 'Country':
+        case 'Jazz':
+        default: console.log("Invlaid genre selected");
+      }
+    }
+  }
+
+  //Get the data from a playlist, 
+  getPlaylistData(playlistID){
+    const _this = this;
+    _this.props.spotifyApi.getPlaylist(playlistID)
+    .then(
+      function(data) {
+        if (data.body) {
+          return data.body;
+        }
+        else{
+          console.log("Invalid Playlist ID");
+        }
+      },
+      function(err){
+        console.log("Something went wrong", err);
+      }
+      );
+  }
+  
+  /* let's use this to set playlist details and upload a photo to the playlist
+  add to generate playlist method
+  // Change playlist details
+spotifyApi.changePlaylistDetails('playlist',
+  {
+    name: 'This is a new name for my Cool Playlist, and will become private',
+    'public' : false
+  }).then(function(data) {
+     console.log('Playlist is now private!');
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
+
+  //TBD
+// Upload a custom playlist cover image
+spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64uri')
+  .then(function(data) {
+     console.log('Playlsit cover image uploaded!');
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
+
+  */
+  
+  generateNewPlaylist(){
+    //this.setGeneratePlaylistID()
+    this.props.spotifyAPI.createPlaylist("CS445 Playlist",{ 'description': 'My description', 'public': true })
+    .then(function(data) {
+      console.log('Created playlist!');
+    }, function(err) {  
+      console.log('Something went wrong!', err);
+    });
+  }
+
   renderDisplayNewList() {
-    //call api to get all users playlists id (getUserPlaylists), save them in userPlaylistID
-    //call api to get all track ids from each playlist (getPlaylist), save them in userTrackID
-    //call api to get all artists from each track in each playlist using above api call, save them in userArtists
-    //randomly pick up to ten artists from userArtists and use spotifyApi.searchTracks('artist:name'),  
-    //pick a track from searched tracks, check track id is already in userTrackID, if in, pick another the next song and does checking, if not add this track into newTrackList
-    //create a newTrackList with 10 new songs
-    //create a new playlist (spotifyApi.createPlaylist('My playlist', { 'description': 'My description', 'public': true }))
-    //add those 10 new songs from newTrackList in to the new playlist(spotifyApi.addTracksToPlaylist(...))
-    
+    this.generateNewPlaylist();
     return (
       <div className='displayNewList'>
         <div>
@@ -120,3 +154,40 @@ class GeneratePlaylist extends React.Component {
 }
 
 export default GeneratePlaylist;
+
+  // componentDidMount() {
+  //   // example of api calls, see web console for data structure
+  //   const _this = this;
+  //   this.props.spotifyAPI.getMe()
+  //   .then(function(data) {
+  //     console.log(data.body);
+  //     _this.setState({userName: data.body.display_name})
+  //     return _this.props.spotifyAPI.getUserPlaylists(data.body.display_name);
+  //   })
+  //   .then(function(data) {
+  //     console.log(data.body);
+  //     _this.setState({playlists: data.body.items})
+  //     return _this.props.spotifyAPI.getPlaylist('0hOgSihQE8qFl0RSBOYRId');
+  //   })
+  //   .then(function(data) {
+  //     console.log("playlist: ", data.body);
+  //   })
+  //   .catch(function(err) {
+  //     console.log('Something went wrong:', err.message);
+  //   });
+  // }
+
+
+  //renders a list of user playlists
+  // renderPlaylists(playlists) {
+  //   const playlistsList = playlists.map((item) => (
+  //     <div className="playlist">
+  //       <img src={item.images[0].url} alt='' />
+  //       <ul>
+  //         <li>Name: {item.name} </li>
+  //         <li>Id: {item.id}</li>
+  //       </ul>
+  //     </div>
+  //   ));
+  //   return playlistsList;
+  // }

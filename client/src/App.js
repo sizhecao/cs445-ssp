@@ -86,32 +86,6 @@ class App extends Component {
   }
 
 
-  //Get the data from a playlist, for now, its set to a specific one "Top 50 Global"
-  //Need to implement a parameter which would be the playlist ID
-  getPlaylistData(){
-    const _this = this;
-    const playlistID = '37i9dQZEVXbMDoHDwVN2tF';
-    spotifyApi.getPlaylist(playlistID)
-    .then(function(data){
-      console.log(data.body);
-      if(data.body){
-        _this.setState({
-          createPlaylist: {
-            playlistName: data.body.name,
-            playlistImg: data.body.images[0].url
-          }
-        });
-      }
-      else {
-        console.log('Invalid playlist ID entered');
-      }
-    },
-    function(err) {
-      console.log("Something went wrong", err);
-    }
-    );
-  }
-
   //Method to get the list of songs from playlist
   getPlaylistSongs(playlistID){
     spotifyApi.getPlaylistTracks(playlistID)
@@ -151,7 +125,6 @@ class App extends Component {
 
 export default App;
 
-//Display Current playing song and get top 50 playlist
 /*
         <div className='GUI_content_format'>
           <div className='nowPlaying'>
