@@ -138,7 +138,7 @@ class App extends Component {
           />
         </div>
 
-        {/*When user is logged in, display now playing div*/}
+        {/*When user is logged in, display now playing div and/or Genrate Playlist (Where the now playing used to be)*/}
         <div>
           { this.state.loggedIn && <GeneratePlaylist spotifyAPI = {spotifyApi}/> }
         </div>
@@ -180,4 +180,8 @@ export default App;
             </div>
           </div>
         </div>
+
+
+
+        
 */
