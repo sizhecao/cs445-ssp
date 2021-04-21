@@ -11,6 +11,7 @@ class GeneratePlaylist extends React.Component {
       userTrackID: null,
       userArtists: null,
       newTrackList: null,
+      GenPlaylistID: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -119,12 +120,25 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
   
   generateNewPlaylist(){
     //this.setGeneratePlaylistID()
-    this.props.spotifyAPI.createPlaylist("CS445 Playlist",{ 'description': 'My description', 'public': true })
+    this.props.spotifyAPI.createPlaylist("CS445 Playlist",{ 'description': 'This is the Generated Playlist', 'public': true })
     .then(function(data) {
       console.log('Created playlist!');
+      console.log(data.body);
     }, function(err) {  
       console.log('Something went wrong!', err);
     });
+    this.props.spotifyAPI.getUserPlaylists(this.props.userName)
+    .then(function(data) {
+      console.log('success!');
+      console.log(data.body);
+      this.setState({
+        GenPlaylistID: data.body.item[0].id
+      })
+
+    }, function(err) {  
+      console.log('Something went wrong!', err);
+    });
+    
   }
 
   renderDisplayNewList() {
@@ -132,7 +146,7 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
     return (
       <div className='displayNewList'>
         <div>
-          <p>new song list for {this.state.selectedGenre}     .</p>
+          <p>A New {this.state.selectedGenre} playlist.</p>
         </div>
         <div>
           <p>  right panel, back to generate playlist button</p>
