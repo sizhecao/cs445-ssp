@@ -124,7 +124,7 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
   //to the variable called GenPlaylistID
   generateNewPlaylist(){
     const _this = this;
-    this.setGeneratePlaylistID()
+    //this.setGeneratePlaylistID()
     this.props.spotifyAPI.createPlaylist("CS445 Playlist",{ 'description': 'This is the Generated Playlist', 'public': true })
     .then(function(data) {
       console.log('Created playlist!');
@@ -143,7 +143,7 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
       console.log('Something went wrong!', err);
     });
   }
-
+ 
   //Adds tracks to the generated playlist
   addTracksToGenPlaylist(){
     this.props.spotifyAPI.getPlaylistTracks('3Re1NJE0PzaLauOHXnxsxf')
@@ -153,7 +153,7 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
     }, function(err) {  
       console.log('Something went wrong!', err);
     });
-    //this.props.spotifyAPI.addTracksToPlaylist(this.state.userPlaylistID,)
+    //this.props.spotifyAPI.addTracksToPlaylist(this.state.GenPlaylistID,)
   }
 
   renderDisplayNewList() {
