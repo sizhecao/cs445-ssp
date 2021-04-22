@@ -87,34 +87,36 @@ class App extends Component {
 
 
   //Method to get the list of songs from playlist
-  getPlaylistSongs(playlistID){
+  getPlaylistSongs(playlistID) {
     spotifyApi.getPlaylistTracks(playlistID)
-    .then(function(data){
+      .then(function (data) {
 
-    });
+      });
   }
 
-  //Method to get the list of artists from songs in a playlist 
-  getPlaylistArtists(playlistID){
-
+  //Method to get the artist from a song 
+  getArtists(song) {
+//chloe
   }
+
+
+
 
   render() {
     return (
       <div className="App">
-    
+
         <div className='loginPhoto'>
-          <img src="superSpotifyPlaylistLogo.png" alt="super spotify playlist own logo"/>
+          <img src="superSpotifyPlaylistLogo.png" alt="super spotify playlist own logo" />
           {/*Login component, details in Login.js*/}
-          <Login 
-            isLoggedIn = {this.state.loggedIn}
-            spotifyAPI = {spotifyApi}
+          <Login
+            isLoggedIn={this.state.loggedIn}
+            spotifyAPI={spotifyApi}
           />
         </div>
-
         {/*When user is logged in, display now playing div*/}
         <div>
-          { this.state.loggedIn && <GeneratePlaylist spotifyAPI = {spotifyApi}/> }
+          {this.state.loggedIn && <GeneratePlaylist spotifyAPI={spotifyApi} />}
         </div>
         
       </div>
