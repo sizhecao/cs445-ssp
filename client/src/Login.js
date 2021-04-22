@@ -21,7 +21,6 @@ class Login extends React.Component {
     .then(function(data) {
       console.log(data.body);
       _this.setState({userName: data.body.display_name})
-      console.log(data.body.display_name);
       return _this.props.spotifyAPI.getUserPlaylists(data.body.display_name);
     })
     .then(function(data) {
