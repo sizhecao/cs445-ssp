@@ -55,7 +55,8 @@ class App extends Component {
             _this.setState({
               nowPlaying: {
                 name: data.body.item.name,
-                albumArt: data.body.item.album.images[0].url
+                albumArt: data.body.item.album.images[0].url,
+                artist: data.body.item.artists
               }
             });
             console.log(data.body);
@@ -89,19 +90,27 @@ class App extends Component {
 
   //Method to get the list of songs from playlist
   getPlaylistSongs(playlistID) {
-    spotifyApi.getPlaylistTracks(playlistID)
-      .then(function (data) {
-
-      });
+    spotifyApi.getPlaylistTracks(playlistID).then(
+      function (data) {
+        console.log('The playlist contains these tracks: ', data.body)
+      },
+      function(err) {
+        console.error(err);
+      }
+      );
   }
 
   //Method to get the artist from a song 
-  getArtists(song) {
-    //chloe
+  getSongArtists(songID) {
+    spotifyApi.getTrack(songID).then(
+        function (data) {
+          console.log('Artist information', data.body.artists);
+        },
+        function(err) {
+          console.error(err);
+        }
+      );
   }
-
-
-
 
   render() {
     return (

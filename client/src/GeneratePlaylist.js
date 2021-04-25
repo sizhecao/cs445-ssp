@@ -19,8 +19,6 @@ class GeneratePlaylist extends React.Component {
   }
 
 
-
-
   //set the genre type 
   handleChange(event) {
     this.setState({selectedGenre: event.target.value});  
