@@ -19,20 +19,19 @@ class Login extends React.Component {
     const _this = this;
     this.props.spotifyAPI.getMe()
     .then(function(data) {
-      console.log(data.body);
+      //console.log(data.body);
       _this.setState({userName: data.body.display_name})
-      console.log(data.body.display_name);
+      //console.log(data.body.display_name);
       return _this.props.spotifyAPI.getUserPlaylists(data.body.display_name);
     })
     .then(function(data) {
-      console.log(data.body);
+      //console.log(data.body);
       _this.setState({playlists: data.body.items})
     })
     .catch(function(err) {
       console.log('Something went wrong:', err.message);
     });
   }
-
   
   renderPlaylists(playlists) {
     const playlistsList = playlists.map((item) => (

@@ -80,7 +80,11 @@ class App extends Component {
             _this.setState({
               topArtists: data.body.items, //data.body.items[0].id
             });
+<<<<<<< Updated upstream
             console.log('Top artist[0] id: ', _this.state.topArtists[0].id); //_this.state.topArtists[0].id for compare
+=======
+            //console.log(_this.state.topArtists);
+>>>>>>> Stashed changes
           } else {
             console.log('data.body null, something went wrong!');
           }
@@ -88,6 +92,7 @@ class App extends Component {
           console.log('Something went wrong!', err);
         });
   }
+<<<<<<< Updated upstream
 
   //Method to get the list of songs from playlist
   getPlaylistSongs(playlistID) {
@@ -120,6 +125,9 @@ class App extends Component {
       }
     );
   }
+=======
+  
+>>>>>>> Stashed changes
 
   render() {
     return (

@@ -1,5 +1,4 @@
 import React from 'react';
-import App from './App';
 import './App.css';
 
 class GeneratePlaylist extends React.Component {
@@ -13,7 +12,6 @@ class GeneratePlaylist extends React.Component {
       userArtists: null,
       newTrackList: null,
       GenreID: null,
-      pulledTracks: null,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -77,25 +75,6 @@ class GeneratePlaylist extends React.Component {
       }
     }
   }
-
-  //Get the data from a playlist, 
-  getPlaylistData(playlistID){
-    const _this = this;
-    _this.props.spotifyApi.getPlaylist(playlistID)
-    .then(
-      function(data) {
-        if (data.body) {
-          return data.body;
-        }
-        else{
-          console.log("Invalid Playlist ID");
-        }
-      },
-      function(err){
-        console.log("Something went wrong", err);
-      }
-      );
-  }
   
   /* let's use this to set playlist details and upload a photo to the playlist
   add to generate playlist method
@@ -129,30 +108,49 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
     _this.props.spotifyAPI.createPlaylist("CS445 Playlist",{ 'description': 'This is the Generated Playlist', 'public': true })
     .then(function(data) {
       console.log('Created playlist!');
-      console.log(data.body);
-      
+      //setting the generate playlist ID to the 
+      //variable in this state
       _this.setState({
         GenPlaylistID: data.body.id
       })
-      
     }, function(err) {  
       console.log('Something went wrong!', err);
     });
-    /*
-    //gets the ID of the playlist just created
-    this.props.spotifyAPI.getUserPlaylists(this.props.userName)
-    .then(function(data) {
-      console.log('success!');
-      console.log(data.body);
-      console.log(this.state.GenPlaylistID);
-    }, function(err) {  
-      console.log('Something went wrong!', err);
-    });
-    */
+  }
+  //Method to get the artist from a given song ID
+  getSongArtists(songID) {
+    this.props.spotifyAPI.getTrack(songID)
+      .then(
+        function (data) {
+          console.log('Artist information', data.body.artists);
+        },
+        function(err) {
+          console.error(err);
+        }
+      );
   }
 
+    //Method to get the list of songs from playlist and 
+    //putting that array into the variable newTrackList
+    setNewTrackList(playlistID) {
+      const _this = this;
+      _this.props.spotifyAPI.getPlaylistTracks(playlistID).then(
+        function (data) {
+          console.log('The playlist contains these tracks: ', data.body.items)
+          _this.setState({
+            newTrackList: data.body.items
+          })
+        },
+        function(err) {
+          console.error(err);
+        }
+        );
+    }
+
   //Adds tracks to the generated playlist
+  //using the newTrackList variable
   addTracksToGenPlaylist(){
+<<<<<<< Updated upstream
     this.props.spotifyAPI.getPlaylistTracks('3Re1NJE0PzaLauOHXnxsxf')
     .then(function(data) { 
       console.log(data.body);
@@ -174,13 +172,30 @@ for (j = 0; i < topArtist.length; j++) {
 //this.props.spotifyAPI.addTracksToPlaylist(this.state.userPlaylistID, array of track uris)
 }
 */
+=======
+    const _this = this;
+    _this.props.spotifyAPI.addTracksToPlaylist("29rk5AOVz8uUgx02BH3Ast", "spotify:track:6pDVjCUA3B1vg9waKutAsv")
+    .then(function(data) {
+      console.log(data);
+      console.log('Successfully added songs to the playlist')
+    }, function(err) {  
+      console.log('Something went wrong!', err);
+    });
+>>>>>>> Stashed changes
   }
 
   renderDisplayNewList() {
     if(this.state.GenPlaylistID == null){
       this.generateNewPlaylist();
     }
-    //this.addTracksToGenPlaylist();
+    else if(this.state.newTrackList == null){
+      this.setNewTrackList('3Re1NJE0PzaLauOHXnxsxf');
+    }
+    else if(this.state.newTrackList){
+      this.addTracksToGenPlaylist();
+    }
+    console.log('GenPlaylistID', this.state.GenPlaylistID);
+    console.log('newTrackList', this.state.newTrackList);
     return (
       <div className='displayNewList'>
         <div>
