@@ -154,13 +154,26 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
   //Adds tracks to the generated playlist
   addTracksToGenPlaylist(){
     this.props.spotifyAPI.getPlaylistTracks('3Re1NJE0PzaLauOHXnxsxf')
-    .then(function(data) {
+    .then(function(data) { 
       console.log(data.body);
 
     }, function(err) {  
       console.log('Something went wrong!', err);
     });
-    //this.props.spotifyAPI.addTracksToPlaylist(this.state.userPlaylistID,)
+    //this.props.spotifyAPI.addTracksToPlaylist(this.state.userPlaylistID, array of track uris)
+
+/* ben's algorithm!
+playlistSongs = playlistSongs (from app.js - _this.state.playlistSongs);
+topArtist = topArtist (from app.js-  _this.state.topArtist);
+for (i 0 ; i < playlistSongs.length ; i++ )
+for (j = 0; i < topArtist.length; j++) {
+  getSongArtists()
+
+  //if( topArtist[j].id === playlistSongs[i].track.id) ben
+
+//this.props.spotifyAPI.addTracksToPlaylist(this.state.userPlaylistID, array of track uris)
+}
+*/
   }
 
   renderDisplayNewList() {

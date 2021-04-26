@@ -24,6 +24,7 @@ class App extends Component {
         ablumArt: ''
       },
       topArtists: null,
+      playlistSongs: null,
 
       createPlaylist: {
         playlistName: '',
@@ -77,9 +78,9 @@ class App extends Component {
         function (data) {
           if (data.body.items) {
             _this.setState({
-              topArtists: data.body.items,
+              topArtists: data.body.items, //data.body.items[0].id
             });
-            console.log(_this.state.topArtists);
+            console.log('Top artist[0] id: ', _this.state.topArtists[0].id); //_this.state.topArtists[0].id for compare
           } else {
             console.log('data.body null, something went wrong!');
           }
@@ -90,26 +91,34 @@ class App extends Component {
 
   //Method to get the list of songs from playlist
   getPlaylistSongs(playlistID) {
-    spotifyApi.getPlaylistTracks(playlistID).then(
+    const _this = this;
+    spotifyApi.getPlaylistTracks(playlistID)
+    .then(
       function (data) {
-        console.log('The playlist contains these tracks: ', data.body)
-      },
-      function(err) {
+        if (data.body) {
+          _this.setState({
+            playlistSongs: data.body.items, //data.body.items[0].id
+          });
+          console.log('The playlist contains these tracks: ', _this.state.playlistSongs); // _this.state.playlistSongs[0].track.id for compare
+        } else {
+          console.log('data.body null, something went wrong!');
+        }
+      }, function (err) {
         console.error(err);
       }
-      );
+    );
   }
 
   //Method to get the artist from a song 
   getSongArtists(songID) {
     spotifyApi.getTrack(songID).then(
-        function (data) {
-          console.log('Artist information', data.body.artists);
-        },
-        function(err) {
-          console.error(err);
-        }
-      );
+      function (data) {
+        console.log('Artist information', data.body.artists);
+      },
+      function (err) {
+        console.error(err);
+      }
+    );
   }
 
   render() {
@@ -118,17 +127,18 @@ class App extends Component {
 
         <div className='loginPhoto'>
           <img src="superSpotifyPlaylistLogo.png" alt="super spotify playlist own logo" />
-          {/*Login component, details in Login.js*/}
+          {/*Login component, (passes vaiables to gen playlist.js?) details in Login.js*/}
           <Login
             isLoggedIn={this.state.loggedIn}
             spotifyAPI={spotifyApi}
           />
         </div>
-        
-        
+
+
         <div>
           {/*this.state.loggedIn && this.getTopArtists()*/ /*trying to figure out how to call a method once for testing...help! -Ben */}
-          {(this.state.topArtists==null) && this.getTopArtists()}
+          {(this.state.topArtists == null) && this.getTopArtists()}
+          {(this.state.playlistSongs == null) && this.getPlaylistSongs('6xvGvOrLQIvqncEw4nJkJk')} {/*for testing*/}
         </div>
 
         {/*When user is logged in, display now playing div and/or Genrate Playlist (Where the now playing used to be)*/}
