@@ -1,4 +1,5 @@
 import React from 'react';
+import App from './App';
 import './App.css';
 
 class GeneratePlaylist extends React.Component {
@@ -48,6 +49,8 @@ class GeneratePlaylist extends React.Component {
           <input type='submit' value='Generate!' />
         </form>
       </div>
+      
+      
     )
   }
 

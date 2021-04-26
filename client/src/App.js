@@ -124,6 +124,8 @@ class App extends Component {
             spotifyAPI={spotifyApi}
           />
         </div>
+        
+        
         <div>
           {/*this.state.loggedIn && this.getTopArtists()*/ /*trying to figure out how to call a method once for testing...help! -Ben */}
         </div>
