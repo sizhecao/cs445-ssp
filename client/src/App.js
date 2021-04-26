@@ -117,6 +117,7 @@ class App extends Component {
         </div>
         <div>
           {/*this.state.loggedIn && this.getTopArtists()*/ /*trying to figure out how to call a method once for testing...help! -Ben */}
+          {(this.state.topArtists==null) && this.getTopArtists()}
         </div>
 
         {/*When user is logged in, display now playing div and/or Genrate Playlist (Where the now playing used to be)*/}
