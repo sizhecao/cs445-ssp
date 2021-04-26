@@ -1,4 +1,5 @@
 import React from 'react';
+import App from './App';
 import './App.css';
 
 class GeneratePlaylist extends React.Component {
@@ -7,7 +8,7 @@ class GeneratePlaylist extends React.Component {
     this.state = {
       selectedGenre: '',
       displayState: 'selectGenre',
-      GenPlaylistID: '',
+      GenPlaylistID: null,
       userTrackID: null,
       userArtists: null,
       newTrackList: null,
@@ -17,8 +18,6 @@ class GeneratePlaylist extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-
 
 
   //set the genre type 
@@ -50,6 +49,8 @@ class GeneratePlaylist extends React.Component {
           <input type='submit' value='Generate!' />
         </form>
       </div>
+      
+      
     )
   }
 
@@ -60,15 +61,15 @@ class GeneratePlaylist extends React.Component {
     if(_this.state.selectedGenre){
       switch(_this.state.selectedGenre){
         case 'Throwback':
-          _this.setState({
-            GenreID: '6xvGvOrLQIvqncEw4nJkJk'
-          })
+          //_this.setState({
+          //  GenreID: '6xvGvOrLQIvqncEw4nJkJk'
+          //})
           break;
         case 'Rap':
         case 'Indie':
-          _this.setState({
-            GenreID: '37i9dQZF1DX9LbdoYID5v7'
-          })
+          //_this.setState({
+          //  GenreID: '37i9dQZF1DX9LbdoYID5v7'
+          //})
           break;
         case 'Country':
         case 'Jazz':
@@ -124,24 +125,30 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
   //to the variable called GenPlaylistID
   generateNewPlaylist(){
     const _this = this;
-    this.setGeneratePlaylistID()
-    this.props.spotifyAPI.createPlaylist("CS445 Playlist",{ 'description': 'This is the Generated Playlist', 'public': true })
+    //this.setGeneratePlaylistID()
+    _this.props.spotifyAPI.createPlaylist("CS445 Playlist",{ 'description': 'This is the Generated Playlist', 'public': true })
     .then(function(data) {
       console.log('Created playlist!');
       console.log(data.body);
+      
+      _this.setState({
+        GenPlaylistID: data.body.id
+      })
+      
     }, function(err) {  
       console.log('Something went wrong!', err);
     });
+    /*
+    //gets the ID of the playlist just created
     this.props.spotifyAPI.getUserPlaylists(this.props.userName)
     .then(function(data) {
       console.log('success!');
       console.log(data.body);
-      _this.setState({
-        GenPlaylistID: data.body.items[0].id
-      })
+      console.log(this.state.GenPlaylistID);
     }, function(err) {  
       console.log('Something went wrong!', err);
     });
+    */
   }
 
   //Adds tracks to the generated playlist
@@ -157,8 +164,10 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
   }
 
   renderDisplayNewList() {
-    this.generateNewPlaylist();
-    this.addTracksToGenPlaylist();
+    if(this.state.GenPlaylistID == null){
+      this.generateNewPlaylist();
+    }
+    //this.addTracksToGenPlaylist();
     return (
       <div className='displayNewList'>
         <div>
