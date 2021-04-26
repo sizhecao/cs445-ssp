@@ -150,14 +150,6 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
   //Adds tracks to the generated playlist
   //using the newTrackList variable
   addTracksToGenPlaylist(){
-<<<<<<< Updated upstream
-    this.props.spotifyAPI.getPlaylistTracks('3Re1NJE0PzaLauOHXnxsxf')
-    .then(function(data) { 
-      console.log(data.body);
-
-    }, function(err) {  
-      console.log('Something went wrong!', err);
-    });
     //this.props.spotifyAPI.addTracksToPlaylist(this.state.userPlaylistID, array of track uris)
 
 /* ben's algorithm!
@@ -172,7 +164,6 @@ for (j = 0; i < topArtist.length; j++) {
 //this.props.spotifyAPI.addTracksToPlaylist(this.state.userPlaylistID, array of track uris)
 }
 */
-=======
     const _this = this;
     _this.props.spotifyAPI.addTracksToPlaylist("29rk5AOVz8uUgx02BH3Ast", "spotify:track:6pDVjCUA3B1vg9waKutAsv")
     .then(function(data) {
@@ -181,7 +172,6 @@ for (j = 0; i < topArtist.length; j++) {
     }, function(err) {  
       console.log('Something went wrong!', err);
     });
->>>>>>> Stashed changes
   }
 
   renderDisplayNewList() {

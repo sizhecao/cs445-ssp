@@ -80,11 +80,8 @@ class App extends Component {
             _this.setState({
               topArtists: data.body.items, //data.body.items[0].id
             });
-<<<<<<< Updated upstream
             console.log('Top artist[0] id: ', _this.state.topArtists[0].id); //_this.state.topArtists[0].id for compare
-=======
             //console.log(_this.state.topArtists);
->>>>>>> Stashed changes
           } else {
             console.log('data.body null, something went wrong!');
           }
@@ -92,42 +89,6 @@ class App extends Component {
           console.log('Something went wrong!', err);
         });
   }
-<<<<<<< Updated upstream
-
-  //Method to get the list of songs from playlist
-  getPlaylistSongs(playlistID) {
-    const _this = this;
-    spotifyApi.getPlaylistTracks(playlistID)
-    .then(
-      function (data) {
-        if (data.body) {
-          _this.setState({
-            playlistSongs: data.body.items, //data.body.items[0].id
-          });
-          console.log('The playlist contains these tracks: ', _this.state.playlistSongs); // _this.state.playlistSongs[0].track.id for compare
-        } else {
-          console.log('data.body null, something went wrong!');
-        }
-      }, function (err) {
-        console.error(err);
-      }
-    );
-  }
-
-  //Method to get the artist from a song 
-  getSongArtists(songID) {
-    spotifyApi.getTrack(songID).then(
-      function (data) {
-        console.log('Artist information', data.body.artists);
-      },
-      function (err) {
-        console.error(err);
-      }
-    );
-  }
-=======
-  
->>>>>>> Stashed changes
 
   render() {
     return (
