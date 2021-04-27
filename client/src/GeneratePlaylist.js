@@ -2,7 +2,10 @@ import React from 'react';
 import './App.css';
 
 class GeneratePlaylist extends React.Component {
+
+  //store generated tracks, each track contains title and artist name
   GenTracks = [];
+
   constructor(props){
     super(props);
     this.state = {
@@ -16,6 +19,7 @@ class GeneratePlaylist extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.backToGenerate = this.backToGenerate.bind(this);
   }
 
   //Set userPlaylistID to a specific playlist ID
@@ -41,30 +45,6 @@ class GeneratePlaylist extends React.Component {
       }
     }
   }
-  
-  /* let's use this to set playlist details and upload a photo to the playlist
-  add to generate playlist method
-  // Change playlist details
-spotifyApi.changePlaylistDetails('playlist',
-  {
-    name: 'This is a new name for my Cool Playlist, and will become private',
-    'public' : false
-  }).then(function(data) {
-     console.log('Playlist is now private!');
-  }, function(err) {
-    console.log('Something went wrong!', err);
-  });
-
-  //TBD
-// Upload a custom playlist cover image
-spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64uri')
-  .then(function(data) {
-     console.log('Playlsit cover image uploaded!');
-  }, function(err) {
-    console.log('Something went wrong!', err);
-  });
-
-  */
   
   //Generates new playlist and sets the generated playlist's ID 
   //to the variable called GenPlaylistID
@@ -116,7 +96,6 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
   }
 
   //Adds tracks to the generated playlist
-  //using the newTrackList variable
   addTracksToGenPlaylist(){
     const myList = [];
     //Iterate through this.props.TopArtists, for each artist, then iterate through the newTracklist. If find a matching artist, then save the track id. 
@@ -126,7 +105,7 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
           if (track.track.artists[0].id === artist) {
             this.GenTracks.push({trackName: track.track.name, trackArtist: track.track.artists[0].name});
             myList.push(track.track.id);
-            console.log("star: ", track.track.name);
+            //console.log("star: ", track.track.name);
           }
         }
       })
@@ -135,12 +114,12 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
     //remapping for the api call
     const tracksToAdd = myList.map(track => "spotify:track:" + track);
 
-    console.log("tracksToAdd: ", tracksToAdd);
+    //console.log("tracksToAdd: ", tracksToAdd);
 
     const _this = this;
     if(tracksToAdd.length > 0) {
       _this.props.spotifyAPI.addTracksToPlaylist(_this.state.GenPlaylistID, tracksToAdd)
-      .then(function(data) {
+      .then(function() {
         console.log('Successfully added songs to the playlist')
         _this.setState({tracksAdded: true});
         return _this.props.spotifyAPI.getPlaylist(_this.state.GenPlaylistID);
@@ -171,35 +150,40 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
       //this.setNewTrackList('6xvGvOrLQIvqncEw4nJkJk'); throwback
       //this.setNewTrackList('0UPRbBJvOpNP9oN9lcEm0q'); cj test playlist
       //Hardcode to throwback playlist for now
-      this.setNewTrackList('6xvGvOrLQIvqncEw4nJkJk');
+      this.setNewTrackList('3Re1NJE0PzaLauOHXnxsxf');
     }
     else if(this.state.newTrackList && !this.state.tracksAdded){
       this.addTracksToGenPlaylist();
     }
-    console.log(this.GenTracks);
+    //console.log(this.GenTracks);
     const newPlaylistTracks = this.GenTracks.map((track) => (
-      <div className="playlist">
-        <ul>
           <li>{track.trackName}         By {track.trackArtist}</li>
-        </ul>
-      </div>
     ));
 
     return (
-      <div className='displayNewList'>
-        <div className='displayNewList-left-panel'>
-          <p>A peek to your generated new list: </p>
+      <div>
+        <div className='displayNewList'>
+          <div className='displayNewList-left-panel'>
+            <p>A peek to your generated new list: </p>
+          </div>
+          <div className='displayNewList-middle-panel'>
+            <img src={this.state.GenPlaylistImg} style={{height: 250}} alt=''/>
+          </div>
+          <div className='displayNewList-right-panel'>
+            <ul>
+              {newPlaylistTracks}
+            </ul>
+          </div>
         </div>
-        <div className='displayNewList-middle-panel'>
-          <img src={this.state.GenPlaylistImg} style={{height: 250}} alt=''/>
-        </div>
-        <div className='displayNewList-right-panel'>
-          <ul>
-            {newPlaylistTracks}
-          </ul>
+        <div className='generate-new-playlist'>
+          <input type='button' value='Generate a new playlist!' onClick={this.backToGenerate} />
         </div>
       </div>
     )
+  }
+
+  backToGenerate() {
+    this.setState({displayState: 'selectGenre'});  
   }
 
   //set the genre type 
@@ -248,6 +232,31 @@ spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64ur
 }
 
 export default GeneratePlaylist;
+
+  /* let's use this to set playlist details and upload a photo to the playlist
+  add to generate playlist method
+  // Change playlist details
+spotifyApi.changePlaylistDetails('playlist',
+  {
+    name: 'This is a new name for my Cool Playlist, and will become private',
+    'public' : false
+  }).then(function(data) {
+     console.log('Playlist is now private!');
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
+
+  //TBD
+// Upload a custom playlist cover image
+spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64uri')
+  .then(function(data) {
+     console.log('Playlsit cover image uploaded!');
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
+
+  */
+
 
 //this.props.spotifyAPI.addTracksToPlaylist(this.state.userPlaylistID, array of track uris)
 
