@@ -24,13 +24,6 @@ class App extends Component {
         ablumArt: ''
       },
       topArtists: null,
-      playlistSongs: null,
-
-      createPlaylist: {
-        playlistName: '',
-        playlistImg: '',
-        artistList: null,
-      }
     }
   }
 
@@ -46,44 +39,16 @@ class App extends Component {
     return hashParams;
   }
 
-  getNowPlaying() {
-    const _this = this;
-    spotifyApi.getMyCurrentPlaybackState()
-      .then(
-        function (data) {
-          if (data.body && data.body.is_playing) {
-            console.log("User is currently playing something!");
-            _this.setState({
-              nowPlaying: {
-                name: data.body.item.name,
-                albumArt: data.body.item.album.images[0].url,
-                artist: data.body.item.artists
-              }
-            });
-            console.log(data.body);
-          } else {
-            console.log("User is not playing anything, or doing so in private.");
-          }
-        },
-        function (err) {
-          console.log("Something went wrong", err);
-        }
-      );
-  }
-
   getTopArtists() {
     const _this = this;
     spotifyApi.getMyTopArtists()
       .then(
         function (data) {
           if (data.body.items) {
+            const topArtistsList = data.body.items.map(artist => artist.id);
             _this.setState({
-              topArtists: data.body.items, //data.body.items[0].id
+              topArtists: topArtistsList
             });
-            console.log('Top artist[0] id: ', _this.state.topArtists[0].id); //_this.state.topArtists[0].id for compare
-            //console.log(_this.state.topArtists);
-          } else {
-            console.log('data.body null, something went wrong!');
           }
         }, function (err) {
           console.log('Something went wrong!', err);
@@ -103,16 +68,15 @@ class App extends Component {
           />
         </div>
 
-
-        <div>
-          {/*this.state.loggedIn && this.getTopArtists()*/ /*trying to figure out how to call a method once for testing...help! -Ben */}
-          {(this.state.topArtists == null) && this.getTopArtists()}
-          {(this.state.playlistSongs == null) && this.getPlaylistSongs('6xvGvOrLQIvqncEw4nJkJk')} {/*for testing*/}
-        </div>
+        {this.state.loggedIn && this.state.topArtists === null && this.getTopArtists()}
 
         {/*When user is logged in, display now playing div and/or Genrate Playlist (Where the now playing used to be)*/}
         <div>
-          {this.state.loggedIn && <GeneratePlaylist spotifyAPI={spotifyApi} />}
+          {this.state.loggedIn && 
+            <GeneratePlaylist 
+              spotifyAPI={spotifyApi} 
+              topArtists={this.state.topArtists}
+            />}
         </div>
 
       </div>
@@ -121,6 +85,31 @@ class App extends Component {
 }
 
 export default App;
+
+// getNowPlaying() {
+//   const _this = this;
+//   spotifyApi.getMyCurrentPlaybackState()
+//     .then(
+//       function (data) {
+//         if (data.body && data.body.is_playing) {
+//           console.log("User is currently playing something!");
+//           _this.setState({
+//             nowPlaying: {
+//               name: data.body.item.name,
+//               albumArt: data.body.item.album.images[0].url,
+//               artist: data.body.item.artists
+//             }
+//           });
+//           console.log(data.body);
+//         } else {
+//           console.log("User is not playing anything, or doing so in private.");
+//         }
+//       },
+//       function (err) {
+//         console.log("Something went wrong", err);
+//       }
+//     );
+// }
 
 /*
         <div className='GUI_content_format'>
