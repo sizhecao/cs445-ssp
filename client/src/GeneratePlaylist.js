@@ -249,7 +249,7 @@ class GeneratePlaylist extends React.Component {
             <div className='displayNewList'>
               <p>No playlist generated, listen to more songs or try a different genre</p>
             </div>
-            <div className='generate-new-playlist'>
+            <div className='displayNewList'>
               <input type='button' value='Generate a new playlist!' onClick={this.backToGenerate} />
             </div>
           </div>
