@@ -59,12 +59,15 @@ class GeneratePlaylist extends React.Component {
     });
   }
 
-  //Method to get the artist from a given song ID
+  /**
+   * Method to get the artist from a given song ID
+   * @param songID song uri from the spotify database
+   */
   getSongArtists(songID) {
-    this.props.spotifyAPI.getTrack(songID)
+    this.props.spotifyAPI.getTrack(songID) // use the wrapper's helper method
       .then(
-        function (data) {
-          console.log('Artist information', data.body.artists);
+        function (data) { 
+          console.log('Artist information', data.body.artists); // print to console the artist info
         },
         function(err) {
           console.error(err);
@@ -84,6 +87,11 @@ class GeneratePlaylist extends React.Component {
     })
   }
 
+  /**
+   * This method gets the list of songs from a playlist
+   * @param id playlist uri from spotify 
+   * @returns a playlist of songs
+   */
   async getPlaylistWithTracks(id) {
     const _this = this;
     const playlist = (await _this.props.spotifyAPI.getPlaylist(id)).body
@@ -106,8 +114,8 @@ class GeneratePlaylist extends React.Component {
   }
 
   //Adds tracks to the generated playlist
-  //This method includes the main algorithm to choosing songs that the user 
-  //will enjoy and adding them to a list of songs to be added to their playlist.
+  //This method includes the main algorithm to choosing songs that the user will enjoy and 
+  //adding them to a list of songs to be added to their playlist.
   addTracksToGenPlaylist(){
     const myList = [];
     //Iterate through this.props.TopArtists, for each artist, then iterate through the newTracklist. 
@@ -164,10 +172,13 @@ class GeneratePlaylist extends React.Component {
     if(this.state.GenPlaylistID == null){
       this.generateNewPlaylist();
     }
+    // else, there is a playlist we did make, let's start adding songs to it!
     else if(this.state.newTrackList == null){
       //this.setNewTrackList('3Re1NJE0PzaLauOHXnxsxf');
       //this.setNewTrackList('6xvGvOrLQIvqncEw4nJkJk'); throwback
       //this.setNewTrackList('0UPRbBJvOpNP9oN9lcEm0q'); cj test playlist
+
+      //switch case to know which palylist the user wants to generate
       switch (this.state.selectedGenre) {
         case "Throwback":
           this.setNewTrackList('6xvGvOrLQIvqncEw4nJkJk'); //throwback playlist id
@@ -196,6 +207,7 @@ class GeneratePlaylist extends React.Component {
           <li key={track.trackName}>{track.trackName}         By {track.trackArtist}</li>
     ));
     
+    // if there we're tracks added to the playlist we made you, let's display it on the UI so you can preview it
     if (this.state.tracksAdded) {
       return (
         <div>
@@ -219,6 +231,7 @@ class GeneratePlaylist extends React.Component {
         </div>
       );
     }
+    //otherwise if our generator did not make a new playlist for you, then we display on the UI nothing was generated
     else {
       if(this.state.newTrackList !== null) {
         return (
@@ -242,6 +255,7 @@ class GeneratePlaylist extends React.Component {
     }
   }
 
+  // go back to generating a new playlist by resetting everything again. 
   backToGenerate() {
     //resetting to default
     this.GenTracks = [];
@@ -267,6 +281,7 @@ class GeneratePlaylist extends React.Component {
     event.preventDefault();
   }
   //Renders a drop down menu for selecting genres 
+  //displays UI for selecting what type of playlist you want to generate
   renderSelectGenre() {
     return (
       <div className='selectGenre'>

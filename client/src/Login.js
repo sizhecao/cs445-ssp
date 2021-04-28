@@ -8,16 +8,16 @@ Authors: Ben LaFave, CJ Cao, Ka’ulu Ng, Chloe Gan
 */
 
 import React from 'react';
-import './App.css';
+import './App.css'; // so we can change the html formats
 
 
 class Login extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      isLoggedIn: props.isLoggedIn,
-      userName: '',
-      playlists: null,
+      isLoggedIn: props.isLoggedIn, // check if user is logged in
+      userName: '', // user's spotify name
+      playlists: null, 
     }
   }
   //Finds the appropriate data from the user 
@@ -55,26 +55,26 @@ class Login extends React.Component {
 
   render() {
     //display user playlists if logged in, otherwise display login button
-    //took out from line 56 {this.state.playlists && this.renderPlaylists(this.state.playlists)}
     if (this.state.isLoggedIn) {
       return (
         <div className='loginButton'>
+          {/**displays your spotify */}
             <p>Hi, {this.state.userName}!</p>
             <div>
-
             </div>
         </div>
       );
     }
     else {
       return (
+
+        //This is the actual login button
         <div className='loginButton' >
+          {/*/ you get sent to the next page with the href*/}
           <a href='http://localhost:8888/login' > LOGIN WITH SPOTIFY </a>
         </div>
       );
     }
-
-    
   }
 }
 
