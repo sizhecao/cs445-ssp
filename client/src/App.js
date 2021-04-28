@@ -1,3 +1,12 @@
+/* 
+This is the 'root' file (it is called in index.js) of our code. 
+This file will call Login.js to load the Login page to make sure the user is logged in
+and call GeneratePlaylist.js to create a playlist in the user's Spotify library
+
+Authors: Ben LaFave, CJ Cao, Ka’ulu Ng, Chloe Gan 
+
+*/
+
 import './App.css';
 import React, { Component } from 'react';
 import SpotifyWebApi from 'spotify-web-api-node';
@@ -35,6 +44,7 @@ class App extends Component {
     return hashParams;
   }
 
+  // getTopArtists() collects the user's Top 20 Artist and stores them in topArtists using the Spotify Api
   getTopArtists() {
     const _this = this;
     spotifyApi.getMyTopArtists()
@@ -66,7 +76,7 @@ class App extends Component {
 
         {this.state.loggedIn && this.state.topArtists === null && this.getTopArtists()}
 
-        {/*When user is logged in, display now playing div and/or Genrate Playlist (Where the now playing used to be)*/}
+        {/*When user is logged in, this will run Generate Playlist.js. spotifyAPI and topArtists data is sent over to the script*/}
         <div>
           {this.state.loggedIn && <GeneratePlaylist spotifyAPI={spotifyApi} topArtists={this.state.topArtists}/>}
         </div>
