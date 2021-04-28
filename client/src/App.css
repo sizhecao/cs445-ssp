@@ -37,7 +37,7 @@ body > #root > div {
 /* controls the image properties in Login.js*/
 .loginPhoto > img {
 	padding: 20px;
-	height : 100px;
+	height: 100px;
 }
 
 /* controls the login button properties in Login.js*/
@@ -60,42 +60,40 @@ body > #root > div {
 }
 
 /* controls for the format of the content for the GUI */
-.GUI_content_format{
+.GUI_content_format {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
 }
 
-/* controls for the format for the algorithm */ 
-.generatePlaylist{
-	display :flex;
+/* controls for the format for the algorithm */
+.generatePlaylist {
+	display: flex;
 	flex-direction: column;
 	align-items: center;
-  	justify-content: center;
-	border: 2px solid  white;
+	justify-content: center;
+	border: 2px solid white;
 	margin: 10px;
 	padding: 10px;
 }
 
-.generatePlaylist > button{
+input {
 	display: grid;
 	place-items: center;
 	border-radius: 99px;
-	padding: 10px;
 	background-color: #1db954; /* spotify colors*/
 	color: white;
 	text-decoration: none;
 }
-
 
 /*controls for the nowPlaying section of the GUI */
 .nowPlaying {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-  	justify-content: center;
-	border: 2px solid  white;
+	justify-content: center;
+	border: 2px solid white;
 	margin: 10px;
 	padding: 10px;
 }

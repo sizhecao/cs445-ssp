@@ -57,7 +57,7 @@ class GeneratePlaylist extends React.Component {
                 + currentdate.getMinutes() + ":" 
                 + currentdate.getSeconds();
 
-    const playlistName = "CS445 Playlist " + datetime;
+    const playlistName = "Super Spotify Playlist " + datetime;
     const _this = this;
     _this.props.spotifyAPI.createPlaylist(playlistName,{ 'description': 'This is the Generated Playlist', 'public': true })
     .then(function(data) {
@@ -197,6 +197,9 @@ class GeneratePlaylist extends React.Component {
               <p>A peek to your generated new list: </p>
               <div className='displayNewList-middle-panel'>
               <img src={this.state.GenPlaylistImg} style={{height: 250}} alt=''/>
+              <div className='generate-new-playlist'>
+            <input type='button' value='Generate another playlist!' onClick={this.backToGenerate} />
+          </div>
             </div>
             </div>  
             <div className='displayNewList-right-panel'>
@@ -205,9 +208,7 @@ class GeneratePlaylist extends React.Component {
               </ul>
             </div>
           </div>
-          <div className='generate-new-playlist'>
-            <input type='button' value='Generate another playlist!' onClick={this.backToGenerate} />
-          </div>
+          
         </div>
       );
     }
@@ -215,11 +216,12 @@ class GeneratePlaylist extends React.Component {
       return (
         <div>
           <div className='displayNewList'>
-            <p>No playlist generated, listen to more songs or try a different genre</p>
-          </div>
           <div className='generate-new-playlist'>
             <input type='button' value='Generate a new playlist!' onClick={this.backToGenerate} />
+            <p>No playlist generated, listen to more songs or try a different genre</p>
+          </div>    
           </div>
+          
         </div>
       );
     }
