@@ -195,10 +195,10 @@ class GeneratePlaylist extends React.Component {
           <div className='displayNewList'>
             <div className='displayNewList-left-panel'>
               <p>A peek to your generated new list: </p>
-            </div>
-            <div className='displayNewList-middle-panel'>
+              <div className='displayNewList-middle-panel'>
               <img src={this.state.GenPlaylistImg} style={{height: 250}} alt=''/>
             </div>
+            </div>  
             <div className='displayNewList-right-panel'>
               <ul>
                 {newPlaylistTracks}
