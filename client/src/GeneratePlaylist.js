@@ -88,19 +88,49 @@ class GeneratePlaylist extends React.Component {
 
   //Method to get the list of songs from playlist and 
   //putting that array into the variable newTrackList
-  setNewTrackList(playlistID) {
+  async setNewTrackList(playlistID) {
+    // const _this = this;
+    // _this.props.spotifyAPI.getPlaylistTracks(playlistID).then(
+    //   function (data) {
+    //     console.log('The playlist contains these tracks: ', data)
+    //     _this.setState({
+    //       newTrackList: data.body.items
+    //     })
+    //   },
+    //   function(err) {
+    //     console.error(err);
+    //   }
+    //   );
+    const playlist = await this.getPlaylistWithTracks(playlistID);
+    //let tracksIds = playlist.tracks.items.map( item => item.track.id );
+    console.log("----", playlist.tracks.items);
+    //console.log(tracksIds);
+    this.setState({
+      newTrackList: playlist.tracks.items
+    })
+    //console.log(tracksIds.length);
+
+  }
+
+  async getPlaylistWithTracks(id) {
     const _this = this;
-    _this.props.spotifyAPI.getPlaylistTracks(playlistID).then(
-      function (data) {
-        console.log('The playlist contains these tracks: ', data.body.items)
-        _this.setState({
-          newTrackList: data.body.items
-        })
-      },
-      function(err) {
-        console.error(err);
+    const playlist = (await _this.props.spotifyAPI.getPlaylist(id)).body
+    
+    // if there is more tracks than the limit (100 by default)
+    if (playlist.tracks.total > playlist.tracks.limit) {
+
+      // Divide the total number of track by the limit to get the number of API calls
+      for (let i = 1; i < Math.ceil(playlist.tracks.total / playlist.tracks.limit); i++) {
+
+        const trackToAdd = (await _this.props.spotifyAPI.getPlaylistTracks(id, {
+          offset: playlist.tracks.limit * i // Offset each call by the limit * the call's index
+        })).body;
+
+        // Push the retreived tracks into the array
+        trackToAdd.items.forEach((item) => playlist.tracks.items.push(item));
       }
-      );
+    }
+    return playlist;
   }
 
   //Adds tracks to the generated playlist
@@ -118,7 +148,6 @@ class GeneratePlaylist extends React.Component {
         }
       })
     })
-
     //remapping for the api call
     const tracksToAdd = myList.map(track => "spotify:track:" + track);
 
@@ -185,10 +214,10 @@ class GeneratePlaylist extends React.Component {
       this.addTracksToGenPlaylist();
     }
     //console.log(this.GenTracks);
-    const newPlaylistTracks = this.GenTracks.map((track) => (
+    const newPlaylistTracks = this.GenTracks.slice(0,10).map((track) => (
           <li key={track.trackName}>{track.trackName}         By {track.trackArtist}</li>
     ));
-
+    
     if (this.state.tracksAdded) {
       return (
         <div>
@@ -205,6 +234,7 @@ class GeneratePlaylist extends React.Component {
             <div className='displayNewList-right-panel'>
               <ul>
                 {newPlaylistTracks}
+                <li key={"more songs"}>......</li>
               </ul>
             </div>
           </div>
@@ -213,27 +243,37 @@ class GeneratePlaylist extends React.Component {
       );
     }
     else {
-      return (
-        <div>
-          <div className='displayNewList'>
-          <div className='generate-new-playlist'>
-            <input type='button' value='Generate a new playlist!' onClick={this.backToGenerate} />
-            <p>No playlist generated, listen to more songs or try a different genre</p>
-          </div>    
+      if(this.state.newTrackList !== null) {
+        return (
+          <div>
+            <div className='displayNewList'>
+              <p>No playlist generated, listen to more songs or try a different genre</p>
+            </div>
+            <div className='generate-new-playlist'>
+              <input type='button' value='Generate a new playlist!' onClick={this.backToGenerate} />
+            </div>
           </div>
-          
-        </div>
-      );
+        );
+      }
+      else {
+        return(
+          <div className='displayNewList'>
+            <p>loading...</p>
+          </div>
+        )
+      }
     }
   }
 
   backToGenerate() {
     //resetting to default
+    this.GenTracks = [];
     this.setState({
       GenPlaylistID: null,
       newTrackList: null,
       tracksAdded: false,
-      displayState: 'selectGenre'
+      displayState: 'selectGenre',
+      GenPlaylistImg: ''
     })
   }
 
@@ -283,6 +323,10 @@ class GeneratePlaylist extends React.Component {
 }
 
 export default GeneratePlaylist;
+
+
+
+
 
   /* let's use this to set playlist details and upload a photo to the playlist
   add to generate playlist method
