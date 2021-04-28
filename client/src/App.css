@@ -78,6 +78,7 @@ body > #root > div {
 	padding: 10px;
 }
 
+/* controls the format for the Generate Playlist buttons*/
 input {
 	display: grid;
 	place-items: center;

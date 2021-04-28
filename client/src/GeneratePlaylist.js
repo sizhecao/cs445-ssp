@@ -73,12 +73,15 @@ class GeneratePlaylist extends React.Component {
     });
   }
 
-  //Method to get the artist from a given song ID
+  /**
+   * Method to get the artist from a given song ID
+   * @param songID song uri from the spotify database
+   */
   getSongArtists(songID) {
-    this.props.spotifyAPI.getTrack(songID)
+    this.props.spotifyAPI.getTrack(songID) // use the wrapper's helper method
       .then(
-        function (data) {
-          console.log('Artist information', data.body.artists);
+        function (data) { 
+          console.log('Artist information', data.body.artists); // print to console the artist info
         },
         function(err) {
           console.error(err);
