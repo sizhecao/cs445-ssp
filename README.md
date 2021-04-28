@@ -50,11 +50,11 @@ spotifyApi.apiCall().then(
     }
 );
 ```
-## CS 445 - Notes for Tammy <br/>
-Here are a list of the main files used in our development. Please see comments in these files. Thanks! 
-client/src/App.js
-client/src/Login.js
-client/src/GeneratePlaylist.js
+## CS 445 - Notes for Code Review <br/>
+Here are a list of the main files used in our development. Please see comments in these files. Thanks! <br/>
+client/src/App.js <br/>
+client/src/Login.js <br/>
+client/src/GeneratePlaylist.js <br/>
 
 ## Dev Resources
  - [Spotify React Tutorial](https://medium.com/@jonnykalambay/now-playing-using-spotifys-awesome-api-with-react-7db8173a7b13)
