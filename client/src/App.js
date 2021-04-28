@@ -1,5 +1,5 @@
 /* 
-This is the root file of our code. 
+This is the 'root' file (it is called in index.js) of our code. 
 This file will call Login.js to load the Login page to make sure the user is logged in
 and call GeneratePlaylist.js to create a playlist in the user's Spotify library
 
