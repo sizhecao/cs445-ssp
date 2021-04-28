@@ -1,3 +1,12 @@
+
+/* 
+This file is called in the app.js render() and brings in the Spotify API and the users Top 20 Artists.
+GeneratePlaylist.js creates a playlist in the user's Spotify library and adds Songs from their top artists.
+
+Authors: Ben LaFave, CJ Cao, Ka’ulu Ng, Chloe Gan 
+
+*/
+
 import React from 'react';
 import './App.css';
 
@@ -95,6 +104,7 @@ class GeneratePlaylist extends React.Component {
   }
 
   //Adds tracks to the generated playlist
+  //This method includes the main algorithm to choosing songs that the user will enjoy and adding them to a list of songs to be added to their playlist.
   addTracksToGenPlaylist(){
     const myList = [];
     //Iterate through this.props.TopArtists, for each artist, then iterate through the newTracklist. If find a matching artist, then save the track id. 

@@ -1,5 +1,11 @@
-/* This file will be the Login component. This will have all our login
-functionality  */
+/* 
+
+This file will be the Login component. This will have all our login functionality. 
+This file determines html elements to be rendered when it is called in app.js. 
+
+Authors: Ben LaFave, CJ Cao, Ka’ulu Ng, Chloe Gan 
+
+*/
 
 import React from 'react';
 import './App.css';
