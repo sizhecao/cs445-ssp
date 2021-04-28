@@ -15,9 +15,9 @@ class Login extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      isLoggedIn: props.isLoggedIn,
-      userName: '',
-      playlists: null,
+      isLoggedIn: props.isLoggedIn, // check if user is logged in
+      userName: '', // user's spotify name
+      playlists: null, 
     }
   }
 
