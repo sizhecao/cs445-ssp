@@ -13,7 +13,7 @@ import SpotifyWebApi from 'spotify-web-api-node';
 import Login from './Login'; // our login functionality
 import GeneratePlaylist from './GeneratePlaylist'; //our generate playlist component
 
-const spotifyApi = new SpotifyWebApi();
+const spotifyApi = new SpotifyWebApi(); //instantiate access to the wrapper's helper methods
 
 
 class App extends Component {
@@ -65,6 +65,7 @@ class App extends Component {
     return (
       <div className="App">
 
+        {/*Login page logo photo*/}
         <div className='loginPhoto'>
           <img src="superSpotifyPlaylistLogo.png" alt="super spotify playlist own logo" />
           {/*Login component, (passes vaiables to gen playlist.js?) details in Login.js*/}
