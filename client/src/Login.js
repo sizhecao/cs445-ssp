@@ -20,7 +20,8 @@ class Login extends React.Component {
       playlists: null,
     }
   }
-
+  //Finds the appropriate data from the user 
+  //To be displayed on the screen
   componentDidMount() {
     const _this = this;
     this.props.spotifyAPI.getMe()

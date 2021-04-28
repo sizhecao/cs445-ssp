@@ -44,10 +44,11 @@ class GeneratePlaylist extends React.Component {
 
     const playlistName = "Super Spotify Playlist " + datetime;
     const _this = this;
+    //Using the Spotify API to generate a playlist
+    //so that songs can be added to it 
     _this.props.spotifyAPI.createPlaylist(playlistName,{ 'description': 'This is the Generated Playlist', 'public': true })
     .then(function(data) {
       console.log('Created playlist!');
-      //console.log(data);
       //setting the generate playlist ID to the 
       //variable in this state
       _this.setState({
@@ -76,7 +77,8 @@ class GeneratePlaylist extends React.Component {
   async setNewTrackList(playlistID) {
     const playlist = await this.getPlaylistWithTracks(playlistID);
     console.log("----", playlist.tracks.items);
-    //console.log(tracksIds);
+    //Setting the tracks taken from the playlist to the 
+    //variable in the state newTrackList
     this.setState({
       newTrackList: playlist.tracks.items
     })
@@ -104,10 +106,12 @@ class GeneratePlaylist extends React.Component {
   }
 
   //Adds tracks to the generated playlist
-  //This method includes the main algorithm to choosing songs that the user will enjoy and adding them to a list of songs to be added to their playlist.
+  //This method includes the main algorithm to choosing songs that the user 
+  //will enjoy and adding them to a list of songs to be added to their playlist.
   addTracksToGenPlaylist(){
     const myList = [];
-    //Iterate through this.props.TopArtists, for each artist, then iterate through the newTracklist. If find a matching artist, then save the track id. 
+    //Iterate through this.props.TopArtists, for each artist, then iterate through the newTracklist. 
+    //If find a matching artist, then save the track id. 
     this.props.topArtists.forEach(artist => {
       this.state.newTrackList.forEach(track => {
         if (track.track.artists[0].id) {
@@ -132,8 +136,7 @@ class GeneratePlaylist extends React.Component {
         return _this.props.spotifyAPI.getPlaylist(_this.state.GenPlaylistID);
       })
       .then(function(data) {
-        //can collect generated playlist info here
-        //console.log(data);
+        //Collect generated playlist info here
         _this.setState({
           GenPlaylistImg: data.body.images[0].url,
         })
@@ -153,7 +156,11 @@ class GeneratePlaylist extends React.Component {
     }
   }
 
+  //Running respective methods depending on what state the program 
+  //is in and also displaying the correct information to the screen
   renderDisplayNewList() {
+    //Only running generate playlist ID method one time 
+    //If no playlist has been made during this session
     if(this.state.GenPlaylistID == null){
       this.generateNewPlaylist();
     }
@@ -169,13 +176,13 @@ class GeneratePlaylist extends React.Component {
           this.setNewTrackList('3Re1NJE0PzaLauOHXnxsxf'); //Indie playlist id
           break;
         case "Rap":
-          this.setNewTrackList('0UPRbBJvOpNP9oN9lcEm0q'); //Rap playlist id
+          this.setNewTrackList('37i9dQZF1DX0XUsuxWHRQd'); //Rap playlist id
           break;
         case "Country":
-          this.setNewTrackList('6xvGvOrLQIvqncEw4nJkJk'); //Country playlist id
+          this.setNewTrackList('37i9dQZF1DX13ZzXoot6Jc'); //Country playlist id
           break;
         case "Jazz":
-          this.setNewTrackList('6xvGvOrLQIvqncEw4nJkJk'); //Jazz playlist id
+          this.setNewTrackList('03v08073YFtriJYto8uO1K'); //Jazz playlist id
           break;
         default:
           this.setNewTrackList('6xvGvOrLQIvqncEw4nJkJk'); // default to throwback playlist
@@ -259,7 +266,7 @@ class GeneratePlaylist extends React.Component {
     }
     event.preventDefault();
   }
-
+  //Renders a drop down menu for selecting genres 
   renderSelectGenre() {
     return (
       <div className='selectGenre'>
@@ -293,106 +300,3 @@ class GeneratePlaylist extends React.Component {
 }
 
 export default GeneratePlaylist;
-
-// //Set userPlaylistID to a specific playlist ID
-//   //according to the option selected in the list
-//   setGeneratePlaylistID(){
-//     const _this = this;
-//     if(_this.state.selectedGenre){
-//       switch(_this.state.selectedGenre){
-//         case 'Throwback':
-//           //_this.setState({
-//           //  GenreID: '6xvGvOrLQIvqncEw4nJkJk'
-//           //})
-//           break;
-//         case 'Rap':
-//         case 'Indie':
-//           //_this.setState({
-//           //  GenreID: '37i9dQZF1DX9LbdoYID5v7'
-//           //})
-//           break;
-//         case 'Country':
-//         case 'Jazz':
-//         default: console.log("Invlaid genre selected");
-//       }
-//     }
-//   }
-
-
-
-  /* let's use this to set playlist details and upload a photo to the playlist
-  add to generate playlist method
-  // Change playlist details
-spotifyApi.changePlaylistDetails('playlist',
-  {
-    name: 'This is a new name for my Cool Playlist, and will become private',
-    'public' : false
-  }).then(function(data) {
-     console.log('Playlist is now private!');
-  }, function(err) {
-    console.log('Something went wrong!', err);
-  });
-
-  //TBD
-// Upload a custom playlist cover image
-spotifyApi.uploadCustomPlaylistCoverImage('5ieJqeLJjjI8iJWaxeBLuK','longbase64uri')
-  .then(function(data) {
-     console.log('Playlsit cover image uploaded!');
-  }, function(err) {
-    console.log('Something went wrong!', err);
-  });
-
-  */
-
-
-//this.props.spotifyAPI.addTracksToPlaylist(this.state.userPlaylistID, array of track uris)
-
-/* ben's algorithm!
-playlistSongs = playlistSongs (from app.js - _this.state.playlistSongs);
-topArtist = topArtist (from app.js-  _this.state.topArtist);
-for (i 0 ; i < playlistSongs.length ; i++ )
-for (j = 0; i < topArtist.length; j++) {
-  getSongArtists()
-
-  //if( topArtist[j].id === playlistSongs[i].track.id) ben
-
-//this.props.spotifyAPI.addTracksToPlaylist(this.state.userPlaylistID, array of track uris)
-}
-*/
-
-  // componentDidMount() {
-  //   // example of api calls, see web console for data structure
-  //   const _this = this;
-  //   this.props.spotifyAPI.getMe()
-  //   .then(function(data) {
-  //     console.log(data.body);
-  //     _this.setState({userName: data.body.display_name})
-  //     return _this.props.spotifyAPI.getUserPlaylists(data.body.display_name);
-  //   })
-  //   .then(function(data) {
-  //     console.log(data.body);
-  //     _this.setState({playlists: data.body.items})
-  //     return _this.props.spotifyAPI.getPlaylist('0hOgSihQE8qFl0RSBOYRId');
-  //   })
-  //   .then(function(data) {
-  //     console.log("playlist: ", data.body);
-  //   })
-  //   .catch(function(err) {
-  //     console.log('Something went wrong:', err.message);
-  //   });
-  // }
-
-
-  //renders a list of user playlists
-  // renderPlaylists(playlists) {
-  //   const playlistsList = playlists.map((item) => (
-  //     <div className="playlist">
-  //       <img src={item.images[0].url} alt='' />
-  //       <ul>
-  //         <li>Name: {item.name} </li>
-  //         <li>Id: {item.id}</li>
-  //       </ul>
-  //     </div>
-  //   ));
-  //   return playlistsList;
-  // }
