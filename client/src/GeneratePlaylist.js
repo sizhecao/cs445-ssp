@@ -21,30 +21,6 @@ class GeneratePlaylist extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.backToGenerate = this.backToGenerate.bind(this);
   }
-
-  //Set userPlaylistID to a specific playlist ID
-  //according to the option selected in the list
-  setGeneratePlaylistID(){
-    const _this = this;
-    if(_this.state.selectedGenre){
-      switch(_this.state.selectedGenre){
-        case 'Throwback':
-          //_this.setState({
-          //  GenreID: '6xvGvOrLQIvqncEw4nJkJk'
-          //})
-          break;
-        case 'Rap':
-        case 'Indie':
-          //_this.setState({
-          //  GenreID: '37i9dQZF1DX9LbdoYID5v7'
-          //})
-          break;
-        case 'Country':
-        case 'Jazz':
-        default: console.log("Invlaid genre selected");
-      }
-    }
-  }
   
   //Generates new playlist and sets the generated playlist's ID 
   //to the variable called GenPlaylistID
@@ -89,27 +65,12 @@ class GeneratePlaylist extends React.Component {
   //Method to get the list of songs from playlist and 
   //putting that array into the variable newTrackList
   async setNewTrackList(playlistID) {
-    // const _this = this;
-    // _this.props.spotifyAPI.getPlaylistTracks(playlistID).then(
-    //   function (data) {
-    //     console.log('The playlist contains these tracks: ', data)
-    //     _this.setState({
-    //       newTrackList: data.body.items
-    //     })
-    //   },
-    //   function(err) {
-    //     console.error(err);
-    //   }
-    //   );
     const playlist = await this.getPlaylistWithTracks(playlistID);
-    //let tracksIds = playlist.tracks.items.map( item => item.track.id );
     console.log("----", playlist.tracks.items);
     //console.log(tracksIds);
     this.setState({
       newTrackList: playlist.tracks.items
     })
-    //console.log(tracksIds.length);
-
   }
 
   async getPlaylistWithTracks(id) {
@@ -238,7 +199,6 @@ class GeneratePlaylist extends React.Component {
               </ul>
             </div>
           </div>
-          
         </div>
       );
     }
@@ -324,7 +284,29 @@ class GeneratePlaylist extends React.Component {
 
 export default GeneratePlaylist;
 
-
+// //Set userPlaylistID to a specific playlist ID
+//   //according to the option selected in the list
+//   setGeneratePlaylistID(){
+//     const _this = this;
+//     if(_this.state.selectedGenre){
+//       switch(_this.state.selectedGenre){
+//         case 'Throwback':
+//           //_this.setState({
+//           //  GenreID: '6xvGvOrLQIvqncEw4nJkJk'
+//           //})
+//           break;
+//         case 'Rap':
+//         case 'Indie':
+//           //_this.setState({
+//           //  GenreID: '37i9dQZF1DX9LbdoYID5v7'
+//           //})
+//           break;
+//         case 'Country':
+//         case 'Jazz':
+//         default: console.log("Invlaid genre selected");
+//       }
+//     }
+//   }
 
 
 
