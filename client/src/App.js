@@ -19,10 +19,6 @@ class App extends Component {
     this.state = {
       loggedIn: token ? true : false,
       userName: '',
-      nowPlaying: {
-        name: 'Not Checked',
-        ablumArt: ''
-      },
       topArtists: null,
     }
   }
@@ -72,11 +68,7 @@ class App extends Component {
 
         {/*When user is logged in, display now playing div and/or Genrate Playlist (Where the now playing used to be)*/}
         <div>
-          {this.state.loggedIn && 
-            <GeneratePlaylist 
-              spotifyAPI={spotifyApi} 
-              topArtists={this.state.topArtists}
-            />}
+          {this.state.loggedIn && <GeneratePlaylist spotifyAPI={spotifyApi} topArtists={this.state.topArtists}/>}
         </div>
 
       </div>
