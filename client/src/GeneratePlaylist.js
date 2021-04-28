@@ -49,9 +49,17 @@ class GeneratePlaylist extends React.Component {
   //Generates new playlist and sets the generated playlist's ID 
   //to the variable called GenPlaylistID
   generateNewPlaylist(){
+    var currentdate = new Date(); 
+    var datetime = (currentdate.getMonth()+1) + "/"
+                + currentdate.getDate()  + "/" 
+                + currentdate.getFullYear() + "-" 
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+
+    const playlistName = "CS445 Playlist " + datetime;
     const _this = this;
-    //this.setGeneratePlaylistID()
-    _this.props.spotifyAPI.createPlaylist("CS445 Playlist",{ 'description': 'This is the Generated Playlist', 'public': true })
+    _this.props.spotifyAPI.createPlaylist(playlistName,{ 'description': 'This is the Generated Playlist', 'public': true })
     .then(function(data) {
       console.log('Created playlist!');
       //console.log(data);
@@ -105,7 +113,7 @@ class GeneratePlaylist extends React.Component {
           if (track.track.artists[0].id === artist) {
             this.GenTracks.push({trackName: track.track.name, trackArtist: track.track.artists[0].name});
             myList.push(track.track.id);
-            //console.log("star: ", track.track.name);
+            //console.log("artists: ", track.track.name);
           }
         }
       })
@@ -115,7 +123,6 @@ class GeneratePlaylist extends React.Component {
     const tracksToAdd = myList.map(track => "spotify:track:" + track);
 
     //console.log("tracksToAdd: ", tracksToAdd);
-
     const _this = this;
     if(tracksToAdd.length > 0) {
       _this.props.spotifyAPI.addTracksToPlaylist(_this.state.GenPlaylistID, tracksToAdd)
@@ -136,9 +143,14 @@ class GeneratePlaylist extends React.Component {
       });
     }
     else {
-      console.log("No songs in the list match your top 20 artists");
+      //remove the empty playlist created
+      _this.props.spotifyAPI.unfollowPlaylist(_this.state.GenPlaylistID)
+      .then(function() {
+        console.log('Empty playlist successfully unfollowed since no song has added!');
+      }, function(err) {
+        console.log('Something went wrong!', err);
+      }); 
     }
-
   }
 
   renderDisplayNewList() {
@@ -149,41 +161,78 @@ class GeneratePlaylist extends React.Component {
       //this.setNewTrackList('3Re1NJE0PzaLauOHXnxsxf');
       //this.setNewTrackList('6xvGvOrLQIvqncEw4nJkJk'); throwback
       //this.setNewTrackList('0UPRbBJvOpNP9oN9lcEm0q'); cj test playlist
-      //Hardcode to throwback playlist for now
-      this.setNewTrackList('3Re1NJE0PzaLauOHXnxsxf');
+      switch (this.state.selectedGenre) {
+        case "Throwback":
+          this.setNewTrackList('6xvGvOrLQIvqncEw4nJkJk'); //throwback playlist id
+          break;
+        case "Indie":
+          this.setNewTrackList('3Re1NJE0PzaLauOHXnxsxf'); //Indie playlist id
+          break;
+        case "Rap":
+          this.setNewTrackList('0UPRbBJvOpNP9oN9lcEm0q'); //Rap playlist id
+          break;
+        case "Country":
+          this.setNewTrackList('6xvGvOrLQIvqncEw4nJkJk'); //Country playlist id
+          break;
+        case "Jazz":
+          this.setNewTrackList('6xvGvOrLQIvqncEw4nJkJk'); //Jazz playlist id
+          break;
+        default:
+          this.setNewTrackList('6xvGvOrLQIvqncEw4nJkJk'); // default to throwback playlist
+      }
     }
     else if(this.state.newTrackList && !this.state.tracksAdded){
       this.addTracksToGenPlaylist();
     }
     //console.log(this.GenTracks);
     const newPlaylistTracks = this.GenTracks.map((track) => (
-          <li>{track.trackName}         By {track.trackArtist}</li>
+          <li key={track.trackName}>{track.trackName}         By {track.trackArtist}</li>
     ));
 
-    return (
-      <div>
-        <div className='displayNewList'>
-          <div className='displayNewList-left-panel'>
-            <p>A peek to your generated new list: </p>
+    if (this.state.tracksAdded) {
+      return (
+        <div>
+          <div className='displayNewList'>
+            <div className='displayNewList-left-panel'>
+              <p>A peek to your generated new list: </p>
+            </div>
+            <div className='displayNewList-middle-panel'>
+              <img src={this.state.GenPlaylistImg} style={{height: 250}} alt=''/>
+            </div>
+            <div className='displayNewList-right-panel'>
+              <ul>
+                {newPlaylistTracks}
+              </ul>
+            </div>
           </div>
-          <div className='displayNewList-middle-panel'>
-            <img src={this.state.GenPlaylistImg} style={{height: 250}} alt=''/>
-          </div>
-          <div className='displayNewList-right-panel'>
-            <ul>
-              {newPlaylistTracks}
-            </ul>
+          <div className='generate-new-playlist'>
+            <input type='button' value='Generate another playlist!' onClick={this.backToGenerate} />
           </div>
         </div>
-        <div className='generate-new-playlist'>
-          <input type='button' value='Generate a new playlist!' onClick={this.backToGenerate} />
+      );
+    }
+    else {
+      return (
+        <div>
+          <div className='displayNewList'>
+            <p>No playlist generated, listen to more songs or try a different genre</p>
+          </div>
+          <div className='generate-new-playlist'>
+            <input type='button' value='Generate a new playlist!' onClick={this.backToGenerate} />
+          </div>
         </div>
-      </div>
-    )
+      );
+    }
   }
 
   backToGenerate() {
-    this.setState({displayState: 'selectGenre'});  
+    //resetting to default
+    this.setState({
+      GenPlaylistID: null,
+      newTrackList: null,
+      tracksAdded: false,
+      displayState: 'selectGenre'
+    })
   }
 
   //set the genre type 
